@@ -1,0 +1,9 @@
+# Emacs
+$~
+
+# Golang
+pkg
+
+# Docker machine
+bin/docker-machine
+bin/docker-machine-driver-*

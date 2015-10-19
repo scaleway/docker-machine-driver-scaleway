@@ -27,12 +27,11 @@ import (
 	"github.com/docker/machine/libmachine/mcnflag"
 	"github.com/docker/machine/libmachine/ssh"
 	"github.com/docker/machine/libmachine/state"
-
-	"github.com/nlamirault/go-scaleway/api"
 )
 
 const (
 	driverName      = "scaleway"
+	version         = "0.1.0"
 	dockerConfigDir = "/etc/docker"
 )
 
@@ -40,6 +39,7 @@ const (
 // See github.com/docker/machine/libmachine/drivers
 type Driver struct {
 	*drivers.BaseDriver
+	ID           string
 	UserID       string
 	Token        string
 	Organization string
@@ -47,15 +47,19 @@ type Driver struct {
 	Volumes      string
 }
 
+func NewDriver() *Driver {
+	return &Driver{}
+}
+
 func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
-	d.UserId = flags.String("scaleway-user-id")
+	d.UserID = flags.String("scaleway-user-id")
 	d.Token = flags.String("scaleway-token")
 	d.Organization = flags.String("scaleway-organization")
 	d.Image = flags.String("scaleway-image")
 	d.Volumes = flags.String("scaleway-volumes")
 	d.SSHUser = "docker"
 	d.SSHPort = 22
-	if d.UserId == "" {
+	if d.UserID == "" {
 		return fmt.Errorf("scaleway driver requires the --scaleway-userid option")
 	}
 	if d.Token == "" {
@@ -67,6 +71,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	if d.Image == "" {
 		return fmt.Errorf("scaleway driver requires the --scaleway-image option")
 	}
+	return nil
 }
 
 func (d *Driver) GetCreateFlags() []mcnflag.Flag {
@@ -111,7 +116,8 @@ func (d *Driver) GetSSHHostname() (string, error) {
 }
 
 func (d *Driver) GetSSHKeyPath() string {
-	return filepath.Join(d.LocalArtifactPath("."), "id_rsa")
+	// return filepath.Join(d.LocalArtifactPath("."), "id_rsa")
+	return filepath.Join(".", "id_rsa")
 }
 
 func (d *Driver) GetSSHPort() (int, error) {
@@ -131,9 +137,9 @@ func (d *Driver) GetSSHUsername() string {
 }
 
 func (d *Driver) GetState() (state.State, error) {
-	log.Debugf("[Scaleway] Retrieving state server %s", d.Id)
+	log.Debugf("[Scaleway] Retrieving state server %s", d.ID)
 	client := d.getClient()
-	response, err := client.GetServer(d.Id)
+	response, err := client.GetServer(d.ID)
 	if err != nil {
 		return state.Error, err
 	}
@@ -147,6 +153,22 @@ func (d *Driver) GetIP() (string, error) {
 	return d.IPAddress, nil
 }
 
+func (d *Driver) GetURL() (string, error) {
+	ip, err := d.GetIP()
+	if err != nil {
+		return "", err
+	}
+	if ip == "" {
+		return "", nil
+	}
+	return fmt.Sprintf("tcp://%s:2376", ip), nil
+}
+
+func (d *Driver) PreCreateCheck() error {
+	// Others...?
+	return nil
+}
+
 func (d *Driver) Create() error {
 	log.Infof("[Scaleway] Creating instance...")
 	client := d.getClient()
@@ -155,8 +177,8 @@ func (d *Driver) Create() error {
 	if err != nil {
 		return err
 	}
-	d.Id = response.Server.ID
-	log.Debugf("[Scaleway] ServerID %s", d.Id)
+	d.ID = response.Server.ID
+	log.Debugf("[Scaleway] ServerID %s", d.ID)
 
 	log.Debugf("[Scaleway] Create SSH key")
 	err = d.createSSHKey()
@@ -175,10 +197,10 @@ func (d *Driver) Create() error {
 	if err := d.waitForServerState(state.Running); err != nil {
 		return err
 	}
-	log.Debugf("[Scaleway] Waiting SSH .......")
-	if err := ssh.WaitForTCP(fmt.Sprintf("%s:%d", d.IPAddress, 22)); err != nil {
-		return err
-	}
+	// log.Debugf("[Scaleway] Waiting SSH .......")
+	// if err := ssh.WaitForTCP(fmt.Sprintf("%s:%d", d.IPAddress, 22)); err != nil {
+	// 	return err
+	// }
 
 	time.Sleep(10 * time.Second)
 	d.setupHostname()
@@ -189,7 +211,7 @@ func (d *Driver) Create() error {
 func (d *Driver) Start() error {
 	log.Infof("[Scaleway] Starting instance...")
 	client := d.getClient()
-	if _, err := client.PerformServerAction(d.Id, "poweron"); err != nil {
+	if _, err := client.PerformServerAction(d.ID, "poweron"); err != nil {
 		return err
 	}
 	d.waitForServerState(state.Running)
@@ -199,7 +221,7 @@ func (d *Driver) Start() error {
 func (d *Driver) Stop() error {
 	log.Infof("[Scaleway] Stopping instance...")
 	client := d.getClient()
-	if _, err := client.PerformServerAction(d.Id, "poweroff"); err != nil {
+	if _, err := client.PerformServerAction(d.ID, "poweroff"); err != nil {
 		return err
 	}
 	d.waitForServerState(state.Stopped)
@@ -209,7 +231,7 @@ func (d *Driver) Stop() error {
 func (d *Driver) Remove() error {
 	log.Infof("[Scaleway] Removing instance... ")
 	client := d.getClient()
-	if err := client.DeleteServer(d.Id); err != nil {
+	if err := client.DeleteServer(d.ID); err != nil {
 		return err
 	}
 	d.waitForServerState(state.Stopped)
@@ -219,7 +241,7 @@ func (d *Driver) Remove() error {
 func (d *Driver) Restart() error {
 	log.Infof("[Scaleway] Rebooting instance...")
 	client := d.getClient()
-	if _, err := client.PerformServerAction(d.Id, "reboot"); err != nil {
+	if _, err := client.PerformServerAction(d.ID, "reboot"); err != nil {
 		return err
 	}
 	d.waitForServerState(state.Running)
@@ -253,8 +275,8 @@ func (d *Driver) publicSSHKeyPath() string {
 	return d.GetSSHKeyPath() + ".pub"
 }
 
-func (d *Driver) getClient() *api.ScalewayClient {
-	return api.NewClient(d.Token, d.UserId, d.Organization)
+func (d *Driver) getClient() *ScalewayClient {
+	return NewClient(d.Token, d.UserID, d.Organization)
 
 }
 
@@ -275,7 +297,7 @@ func getServerState(status string) state.State {
 func (d *Driver) waitForServerState(serverState state.State) error {
 	client := d.getClient()
 	for {
-		response, err := client.GetServer(d.Id)
+		response, err := client.GetServer(d.ID)
 		if err != nil {
 			return err
 		}
@@ -285,7 +307,7 @@ func (d *Driver) waitForServerState(serverState state.State) error {
 		if status == serverState {
 			if status == state.Running {
 				log.Infof("[Scaleway] Server %s is running. Set IP address",
-					d.Id)
+					d.ID)
 				d.IPAddress = response.Server.PublicIP.Address
 			}
 			break

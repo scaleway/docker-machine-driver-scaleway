@@ -6,6 +6,8 @@
 [![coveralls][badge-coveralls]][coveralls]
 
 A [Docker Machine][] driver for the [Scaleway][] cloud.
+This driver leverages the new [plugin architecture](https://github.com/docker/machine/issues/1626)
+being developed for Docker Machine.
 
 ## Installation
 
@@ -47,4 +49,3 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 [Scaleway]: https://www.scaleway.com
 [Docker Machine]: https://github.com/docker/machine
-
