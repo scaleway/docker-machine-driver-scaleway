@@ -9,6 +9,7 @@ machine:
 
 dependencies:
   post:
+    - go get github.com/docker/machine/libmachine
     - make tools
 
 test:
