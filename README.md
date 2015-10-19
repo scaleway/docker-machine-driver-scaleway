@@ -1,9 +1,13 @@
 # docker-machine-scaleway
 
 [![License Apache 2][badge-license]][LICENSE]
-[![travis][badge-travis]][travis]
-[![drone][badge-drone]][drone]
-[![coveralls][badge-coveralls]][coveralls]
+
+Master :
+* [![Circle CI](https://circleci.com/gh/nlamirault/docker-machine-scaleway/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/docker-machine-scaleway/tree/master)
+
+Develop :
+* [![Circle CI](https://circleci.com/gh/nlamirault/docker-machine-scaleway/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/docker-machine-scaleway/tree/develop)
+
 
 A [Docker Machine][] driver for the [Scaleway][] cloud.
 This driver leverages the new [plugin architecture](https://github.com/docker/machine/issues/1626)
