@@ -9,4 +9,4 @@ Feel free to contribute :smiley::beers:
 
 ## License
 
-[MIT](https://github.com/QuentinPerez/docker-machine-driver-scaleway/master/LICENSE.md)
+[MIT](https://github.com/QuentinPerez/docker-machine-driver-scaleway/blob/master/LICENSE)
