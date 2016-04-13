@@ -209,6 +209,5 @@ func (d *Driver) Start() error {
 }
 
 func (d *Driver) Stop() error {
-	log.Info("Stop: not implemented yet")
-	return nil
+	return d.postAction("poweroff")
 }
