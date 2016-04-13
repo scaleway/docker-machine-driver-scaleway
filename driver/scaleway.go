@@ -1,6 +1,7 @@
 package scaleway
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -171,8 +172,7 @@ func (d *Driver) GetURL() (string, error) {
 }
 
 func (d *Driver) Kill() error {
-	log.Info("Kill: not implemented yet")
-	return nil
+	return errors.New("scaleway driver does not support kill")
 }
 
 func (d *Driver) Remove() error {
