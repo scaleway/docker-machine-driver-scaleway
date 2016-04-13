@@ -201,8 +201,7 @@ func (d *Driver) Remove() error {
 }
 
 func (d *Driver) Restart() error {
-	log.Info("Restart: not implemented yet")
-	return nil
+	return d.postAction("reboot")
 }
 
 func (d *Driver) Start() error {
