@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net"
 	"strings"
+	"time"
 
 	"github.com/docker/machine/libmachine/drivers"
 	"github.com/docker/machine/libmachine/log"
@@ -165,7 +166,10 @@ func (d *Driver) GetState() (st state.State, err error) {
 		st = state.Running
 	case "stopping":
 		st = state.Stopping
+	case "stopped":
+		st = state.Stopped
 	}
+	time.Sleep(5 * time.Second)
 	return
 }
 
