@@ -180,6 +180,17 @@ func (d *Driver) GetURL() (string, error) {
 	return fmt.Sprintf("tcp://%s", net.JoinHostPort(d.IPAddress, "2376")), nil
 }
 
+func (d *Driver) postAction(action string) (err error) {
+	var cl *api.ScalewayAPI
+
+	cl, err = d.getClient()
+	if err != nil {
+		return
+	}
+	err = cl.PostServerAction(d.ServerID, action)
+	return
+}
+
 func (d *Driver) Kill() error {
 	return errors.New("scaleway driver does not support kill")
 }
