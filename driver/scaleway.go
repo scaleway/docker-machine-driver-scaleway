@@ -103,6 +103,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 func (d *Driver) Create() (err error) {
 	var publicKey []byte
 	var cl *api.ScalewayAPI
+	var ip *api.ScalewayGetIP
 
 	log.Infof("Creating SSH key...")
 	if err = ssh.GenerateSSHKey(d.GetSSHKeyPath()); err != nil {
@@ -117,12 +118,17 @@ func (d *Driver) Create() (err error) {
 	if err != nil {
 		return
 	}
+	ip, err = cl.NewIP()
+	if err != nil {
+		return
+	}
+	d.IPAddress = ip.IP.Address
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
-		ImageName:         defaultImage,
-		CommercialType:    d.commercialType,
-		Name:              d.name,
-		DynamicIPRequired: true,
-		Bootscript:        defaultBootscript,
+		ImageName:      defaultImage,
+		CommercialType: d.commercialType,
+		Name:           d.name,
+		Bootscript:     defaultBootscript,
+		IP:             ip.IP.ID,
 		Env: strings.Join([]string{"AUTHORIZED_KEY",
 			strings.Replace(string(publicKey[:len(publicKey)-1]), " ", "_", -1)}, "="),
 	})
@@ -152,7 +158,6 @@ func (d *Driver) GetState() (st state.State, err error) {
 		return
 	}
 	st = state.None
-	d.IPAddress = server.PublicAddress.IP
 	switch server.State {
 	case "starting":
 		st = state.Starting
