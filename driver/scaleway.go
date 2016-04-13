@@ -25,6 +25,7 @@ const (
 
 var scwAPI *api.ScalewayAPI
 
+// Driver represents the docker driver interface
 type Driver struct {
 	*drivers.BaseDriver
 	ServerID       string
@@ -38,6 +39,7 @@ type Driver struct {
 	// ipv6         bool
 }
 
+// DriverName returns the name of the driver
 func (d *Driver) DriverName() string {
 	return "scaleway"
 }
@@ -50,6 +52,7 @@ func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {
 	return
 }
 
+// SetConfigFromFlags sets the flags
 func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.Token, d.Organization = flags.String("scaleway-token"), flags.String("scaleway-organization")
 	if d.Token == "" || d.Organization == "" {
@@ -60,12 +63,14 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	return
 }
 
+// NewDriver returns a new driver
 func NewDriver(hostName, storePath string) *Driver {
 	return &Driver{
 		BaseDriver: &drivers.BaseDriver{},
 	}
 }
 
+// GetCreateFlags registers the flags
 func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 	return []mcnflag.Flag{
 		mcnflag.StringFlag{
@@ -102,6 +107,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 	}
 }
 
+// Create configures and starts a scaleway server
 func (d *Driver) Create() (err error) {
 	var publicKey []byte
 	var cl *api.ScalewayAPI
@@ -142,10 +148,12 @@ func (d *Driver) Create() (err error) {
 	return
 }
 
+// GetSSHHostname returns the IP of the server
 func (d *Driver) GetSSHHostname() (string, error) {
 	return d.IPAddress, nil
 }
 
+// GetState returns the state of the server
 func (d *Driver) GetState() (st state.State, err error) {
 	var server *api.ScalewayServer
 	var cl *api.ScalewayAPI
@@ -174,6 +182,7 @@ func (d *Driver) GetState() (st state.State, err error) {
 	return
 }
 
+// GetURL returns IP + docker port
 func (d *Driver) GetURL() (string, error) {
 	if err := drivers.MustBeRunning(d); err != nil {
 		return "", err
@@ -192,10 +201,12 @@ func (d *Driver) postAction(action string) (err error) {
 	return
 }
 
+// Kill does nothing
 func (d *Driver) Kill() error {
 	return errors.New("scaleway driver does not support kill")
 }
 
+// Remove shutdowns the server and removes the IP
 func (d *Driver) Remove() (err error) {
 	var cl *api.ScalewayAPI
 
@@ -217,14 +228,17 @@ func (d *Driver) Remove() (err error) {
 	return
 }
 
+// Restart reboots the server
 func (d *Driver) Restart() error {
 	return d.postAction("reboot")
 }
 
+// Start starts the server
 func (d *Driver) Start() error {
 	return d.postAction("poweron")
 }
 
+// Stop stops the server
 func (d *Driver) Stop() error {
 	return d.postAction("poweroff")
 }
