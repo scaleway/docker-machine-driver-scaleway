@@ -29,6 +29,7 @@ type Driver struct {
 	*drivers.BaseDriver
 	ServerID       string
 	Organization   string
+	IPID           string
 	Token          string
 	commercialType string
 	name           string
@@ -195,9 +196,25 @@ func (d *Driver) Kill() error {
 	return errors.New("scaleway driver does not support kill")
 }
 
-func (d *Driver) Remove() error {
-	log.Info("Remove: not implemented yet")
-	return nil
+func (d *Driver) Remove() (err error) {
+	var cl *api.ScalewayAPI
+
+	cl, err = d.getClient()
+	if err != nil {
+		return
+	}
+	err = cl.PostServerAction(d.ServerID, "terminate")
+	if err != nil {
+		return
+	}
+	for {
+		_, err = cl.GetServer(d.ServerID)
+		if err != nil {
+			break
+		}
+	}
+	err = cl.DeleteIP(d.IPID)
+	return
 }
 
 func (d *Driver) Restart() error {
