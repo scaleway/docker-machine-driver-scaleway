@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/QuentinPerez/docker-machine-driver-scaleway/master/misc/logo_readme.png" width="800"/>
+  <img src="https://raw.githubusercontent.com/scaleway/docker-machine-driver-scaleway/master/misc/logo_readme.png" width="800"/>
 </p>
 
 ## Overview
@@ -10,7 +10,7 @@ A 3rd-party driver plugin for Docker machine to manage your containers on the se
 
 ```
 # install docker-machine-driver-scaleway in your $GOPATH/bin
-$> go install github.com/QuentinPerez/docker-machine-driver-scaleway
+$> go install github.com/scaleway/docker-machine-driver-scaleway
 ```
 
 ## Usage
@@ -139,8 +139,8 @@ Feel free to contribute :smiley::beers:
 - **Scaleway github**: https://github.com/scaleway
 - **Scaleway github-community**: https://github.com/scaleway-community
 - **Docker Machine**: https://docs.docker.com/machine/
-- **Report bugs**: https://github.com/QuentinPerez/docker-machine-driver-scaleway/issues
+- **Report bugs**: https://github.com/scaleway/docker-machine-driver-scaleway/issues
 
 ## License
 
-[MIT](https://github.com/QuentinPerez/docker-machine-driver-scaleway/blob/master/LICENSE)
+[MIT](https://github.com/scaleway/docker-machine-driver-scaleway/blob/master/LICENSE)
