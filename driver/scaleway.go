@@ -14,6 +14,7 @@ import (
 	"github.com/docker/machine/libmachine/ssh"
 	"github.com/docker/machine/libmachine/state"
 	"github.com/scaleway/scaleway-cli/pkg/api"
+	"github.com/scaleway/scaleway-cli/pkg/config"
 )
 
 const (
@@ -57,7 +58,17 @@ func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {
 func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.Token, d.Organization = flags.String("scaleway-token"), flags.String("scaleway-organization")
 	if d.Token == "" || d.Organization == "" {
-		return fmt.Errorf("You must provide organization and token")
+		config, cfgErr := config.GetConfig()
+		if cfgErr == nil {
+			if d.Token == "" {
+				d.Token = config.Token
+			}
+			if d.Organization == "" {
+				d.Organization = config.Organization
+			}
+		} else {
+			return fmt.Errorf("You must provide organization and token")
+		}
 	}
 	d.commercialType = flags.String("scaleway-commercial-type")
 	d.name = flags.String("scaleway-name")
