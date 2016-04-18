@@ -34,6 +34,7 @@ type Driver struct {
 	Token          string
 	commercialType string
 	name           string
+	stopping       bool
 	// size         string
 	// userDataFile string
 	// ipv6         bool
@@ -178,7 +179,9 @@ func (d *Driver) GetState() (st state.State, err error) {
 	case "stopped":
 		st = state.Stopped
 	}
-	time.Sleep(5 * time.Second)
+	if d.stopping {
+		time.Sleep(5 * time.Second)
+	}
 	return
 }
 
@@ -240,5 +243,6 @@ func (d *Driver) Start() error {
 
 // Stop stops the server
 func (d *Driver) Stop() error {
+	d.stopping = true
 	return d.postAction("poweroff")
 }
