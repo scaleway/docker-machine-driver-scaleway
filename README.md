@@ -117,6 +117,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ### master (unreleased)
 
+* Sleep only when we stop an host ([#4](https://github.com/scaleway/docker-machine-driver-scaleway/issues/4))
 * Support of `create`
 * Support of `start`
 * Support of `stop`
