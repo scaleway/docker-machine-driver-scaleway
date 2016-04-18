@@ -10,7 +10,7 @@ A 3rd-party driver plugin for Docker machine to manage your containers on the se
 
 ```
 # install docker-machine-driver-scaleway in your $GOPATH/bin
-$> go install github.com/scaleway/docker-machine-driver-scaleway
+$> go get -u github.com/scaleway/docker-machine-driver-scaleway
 ```
 
 ## Usage
