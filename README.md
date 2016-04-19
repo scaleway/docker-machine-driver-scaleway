@@ -11,9 +11,17 @@ A 3rd-party driver plugin for Docker machine to manage your containers on the se
 
 ## Setup
 
-```
-# install docker-machine-driver-scaleway in your $GOPATH/bin
-$> go get -u github.com/scaleway/docker-machine-driver-scaleway
+```console
+# install latest release of docker-machine-driver-scaleway and docker-machine using homebrew
+$ brew tap scaleway/scaleway
+$ brew install scaleway/scaleway/docker-machine-driver-scaleway
+
+# install latest (git) version of docker-machine-driver-scaleway
+$ brew tap scaleway/scaleway
+$ brew install scaleway/scaleway/docker-machine-driver-scaleway --HEAD
+
+# install latest (git) version of docker-machine-driver-scaleway in your $GOPATH/bin (depends on Golang and docker-machine)
+$ go get -u github.com/scaleway/docker-machine-driver-scaleway
 ```
 
 ## Usage
