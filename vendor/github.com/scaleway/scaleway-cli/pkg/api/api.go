@@ -546,7 +546,7 @@ type ScalewayServerPatchDefinition struct {
 	State             *string                    `json:"state,omitempty"`
 	StateDetail       *string                    `json:"state_detail,omitempty"`
 	PrivateIP         *string                    `json:"private_ip,omitempty"`
-	Bootscript        *ScalewayBootscript        `json:"bootscript,omitempty"`
+	Bootscript        *string                    `json:"bootscript,omitempty"`
 	Hostname          *string                    `json:"hostname,omitempty"`
 	Volumes           *map[string]ScalewayVolume `json:"volumes,omitempty"`
 	SecurityGroup     *ScalewaySecurityGroup     `json:"security_group,omitempty"`
@@ -1392,6 +1392,9 @@ func (s *ScalewayAPI) GetImages() (*[]MarketImage, error) {
 		return nil, err
 	}
 	body, err := s.handleHTTPError([]int{200}, resp)
+	if err != nil {
+		return nil, err
+	}
 	var OrgaImages ScalewayImages
 
 	if err = json.Unmarshal(body, &OrgaImages); err != nil {
