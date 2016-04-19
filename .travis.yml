@@ -2,6 +2,10 @@ language: go
 
 sudo: false
 
+env:
+  global:
+   - GO15VENDOREXPERIMENT=1
+
 go:
   - 1.5.3
   - 1.6.1
@@ -11,7 +15,9 @@ before_install:
     - curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine-`uname -s`-`uname -m` > $GOPATH/bin/docker-machine && chmod +x $GOPATH/bin/docker-machine
     - go get github.com/Azure/go-ansiterm/winterm || true
     - go get github.com/docker/go-units || true
-    - go get -u -f github.com/scaleway/docker-machine-driver-scaleway
+
+install:
+    - go install
 
 script:
     docker-machine create -d scaleway -h | grep "scaleway"
