@@ -19,7 +19,7 @@ import (
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION           = "v1.0.0"
+	VERSION           = "v1.0.0+dev"
 	defaultImage      = "ubuntu-trusty"
 	defaultBootscript = "docker"
 )
