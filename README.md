@@ -118,6 +118,12 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ## Changelog
 
+### master (unreleased)
+
+* No entry
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.1x...master)
+
 ### v1.0.1 (2016-04-19)
 
 * Bump dependencies
