@@ -115,18 +115,18 @@
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/api",
-			"Comment": "v1.9.0-38-g2277474",
-			"Rev": "227747411d3c77c131bfd0275fa15be79bc62507"
+			"Comment": "v1.9.0-47-g763cffe",
+			"Rev": "763cffeddfd540d930c98bf1548da4f321df353d"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/sshcommand",
-			"Comment": "v1.9.0-38-g2277474",
-			"Rev": "227747411d3c77c131bfd0275fa15be79bc62507"
+			"Comment": "v1.9.0-47-g763cffe",
+			"Rev": "763cffeddfd540d930c98bf1548da4f321df353d"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/utils",
-			"Comment": "v1.9.0-38-g2277474",
-			"Rev": "227747411d3c77c131bfd0275fa15be79bc62507"
+			"Comment": "v1.9.0-47-g763cffe",
+			"Rev": "763cffeddfd540d930c98bf1548da4f321df353d"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/curve25519",

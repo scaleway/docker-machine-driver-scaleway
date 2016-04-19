@@ -4,6 +4,9 @@
 
 ## Overview
 
+[![Build
+Status](https://travis-ci.org/scaleway/docker-machine-driver-scaleway.svg?branch=master)](https://travis-ci.org/scaleway/docker-machine-driver-scaleway)
+
 A 3rd-party driver plugin for Docker machine to manage your containers on the servers of Scaleway
 
 ## Setup
