@@ -118,7 +118,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ## Changelog
 
-### master (unreleased)
+### v1.0.0 (2016-04-19)
 
 * Sleep only when we stop an host ([#4](https://github.com/scaleway/docker-machine-driver-scaleway/issues/4))
 * Loads credentials from `~/.scwrc` if available ([#2](https://github.com/scaleway/docker-machine-driver-scaleway/issues/2))
