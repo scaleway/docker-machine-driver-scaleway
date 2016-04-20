@@ -128,6 +128,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ### master (unreleased)
 
+* Add GOXC configuration ([#19](https://github.com/scaleway/docker-machine-driver-scaleway/issues/19))
 * Fix rm subcommand ([#17](https://github.com/scaleway/docker-machine-driver-scaleway/issues/17))
 * Initial homebrew support ([#9](https://github.com/scaleway/docker-machine-driver-scaleway/issues/9))
 
