@@ -42,21 +42,23 @@ Description:
 
 Options:
 
-   --driver, -d "none"                                                                               Driver to create machine with.
+   --driver, -d "none"                                                                               Driver to create machine with. [$MACHINE_DRIVER]
    --engine-env [--engine-env option --engine-env option]                                            Specify environment variables to set in the engine
    --engine-insecure-registry [--engine-insecure-registry option --engine-insecure-registry option]  Specify insecure registries to allow with the created engine
    --engine-install-url "https://get.docker.com"                                                     Custom URL to use for engine installation [$MACHINE_DOCKER_INSTALL_URL]
    --engine-label [--engine-label option --engine-label option]                                      Specify labels for the created engine
    --engine-opt [--engine-opt option --engine-opt option]                                            Specify arbitrary flags to include with the created engine in the form flag=value
-   --engine-registry-mirror [--engine-registry-mirror option --engine-registry-mirror option]        Specify registry mirrors to use
+   --engine-registry-mirror [--engine-registry-mirror option --engine-registry-mirror option]        Specify registry mirrors to use [$ENGINE_REGISTRY_MIRROR]
    --engine-storage-driver                                                                           Specify a storage driver to use with the engine
    --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
+   --scaleway-image "ubuntu-trusty"                                                                  Specifies the image [$SCALEWAY_IMAGE]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
    --swarm                                                                                           Configure Machine with Swarm
    --swarm-addr                                                                                      addr to advertise for Swarm (default: detect and use the machine IP)
    --swarm-discovery                                                                                 Discovery service to use with Swarm
+   --swarm-experimental                                                                              Enable Swarm experimental features
    --swarm-host "tcp://0.0.0.0:3376"                                                                 ip/socket to listen on for Swarm master
    --swarm-image "swarm:latest"                                                                      Specify Docker image to use for Swarm [$MACHINE_SWARM_IMAGE]
    --swarm-master                                                                                    Configure Machine to be a Swarm master
@@ -115,11 +117,11 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ## Options
 
-|Option Name                                                   |Description        |Default Value|required|
-|--------------------------------------------------------------|-------------------|-------------|--------|
-|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``     |Organization UUID  |none         |yes     |
-|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                   |Token UUID         |none         |yes     |
-|``--scaleway-name`` or ``$SCALEWAY_NAME``                     |Server name        |none         |no      |
+|Option Name                                                     |Description        |Default Value|required|
+|----------------------------------------------------------------|-------------------|-------------|--------|
+|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID  |none         |yes     |
+|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID         |none         |yes     |
+|``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name        |none         |no      |
 |``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S         |no      |
 
 ---
@@ -128,7 +130,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ### master (unreleased)
 
-* No entry
+* Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22)
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.2...master)
 
