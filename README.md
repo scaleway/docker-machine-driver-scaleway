@@ -128,6 +128,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ### master (unreleased)
 
+* Fix rm subcommand ([#17](https://github.com/scaleway/docker-machine-driver-scaleway/issues/17))
 * Initial homebrew support ([#9](https://github.com/scaleway/docker-machine-driver-scaleway/issues/9))
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.1x...master)

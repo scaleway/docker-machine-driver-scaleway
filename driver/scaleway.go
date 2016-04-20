@@ -143,6 +143,7 @@ func (d *Driver) Create() (err error) {
 		return
 	}
 	d.IPAddress = ip.IP.Address
+	d.IPID = ip.IP.ID
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
 		ImageName:      defaultImage,
 		CommercialType: d.commercialType,
