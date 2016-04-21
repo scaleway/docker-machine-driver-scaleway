@@ -35,6 +35,7 @@ type Driver struct {
 	Token          string
 	commercialType string
 	name           string
+	image          string
 	stopping       bool
 	// size         string
 	// userDataFile string
@@ -72,6 +73,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	}
 	d.commercialType = flags.String("scaleway-commercial-type")
 	d.name = flags.String("scaleway-name")
+	d.image = flags.String("scaleway-image")
 	return
 }
 
@@ -105,6 +107,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Name:   "scaleway-commercial-type",
 			Usage:  "Specifies the commercial type",
 			Value:  "VC1S",
+		},
+		mcnflag.StringFlag{
+			EnvVar: "SCALEWAY_IMAGE",
+			Name:   "scaleway-image",
+			Usage:  "Specifies the image",
+			Value:  defaultImage,
 		},
 		// mcnflag.StringFlag{
 		//     EnvVar: "SCALEWAY_USERDATA",
@@ -145,7 +153,7 @@ func (d *Driver) Create() (err error) {
 	d.IPAddress = ip.IP.Address
 	d.IPID = ip.IP.ID
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
-		ImageName:      defaultImage,
+		ImageName:      d.image,
 		CommercialType: d.commercialType,
 		Name:           d.name,
 		Bootscript:     defaultBootscript,
