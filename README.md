@@ -130,7 +130,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ### master (unreleased)
 
-* Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22)
+* Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22))
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.2...master)
 
