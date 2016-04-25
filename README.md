@@ -117,12 +117,14 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ## Options
 
-|Option Name                                                     |Description        |Default Value|required|
-|----------------------------------------------------------------|-------------------|-------------|--------|
-|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID  |none         |yes     |
-|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID         |none         |yes     |
-|``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name        |none         |no      |
-|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S         |no      |
+|Option Name                                                     |Description        |Default Value |required|
+|----------------------------------------------------------------|-------------------|--------------|--------|
+|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID  |none          |yes     |
+|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID         |none          |yes     |
+|``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name        |none          |no      |
+|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S          |no      |
+|``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image       |ubuntu-trusty |no      |
+
 
 ---
 
