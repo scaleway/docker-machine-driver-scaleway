@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
+	"os"
 	"strings"
 	"time"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/docker/machine/libmachine/drivers"
 	"github.com/docker/machine/libmachine/log"
 	"github.com/docker/machine/libmachine/mcnflag"
@@ -57,6 +59,11 @@ func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {
 
 // SetConfigFromFlags sets the flags
 func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
+	if flags.Bool("scaleway-debug") {
+		logrus.SetOutput(os.Stderr)
+		logrus.SetLevel(logrus.DebugLevel)
+	}
+
 	d.Token, d.Organization = flags.String("scaleway-token"), flags.String("scaleway-organization")
 	if d.Token == "" || d.Organization == "" {
 		config, cfgErr := config.GetConfig()
@@ -113,6 +120,11 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Name:   "scaleway-image",
 			Usage:  "Specifies the image",
 			Value:  defaultImage,
+		},
+		mcnflag.BoolFlag{
+			EnvVar: "SCALEWAY_DEBUG",
+			Name:   "scaleway-debug",
+			Usage:  "Enables Scaleway client debugging",
 		},
 		// mcnflag.StringFlag{
 		//     EnvVar: "SCALEWAY_USERDATA",

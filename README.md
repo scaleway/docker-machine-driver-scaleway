@@ -51,6 +51,7 @@ Options:
    --engine-registry-mirror [--engine-registry-mirror option --engine-registry-mirror option]        Specify registry mirrors to use [$ENGINE_REGISTRY_MIRROR]
    --engine-storage-driver                                                                           Specify a storage driver to use with the engine
    --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
+   --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
    --scaleway-image "ubuntu-trusty"                                                                  Specifies the image [$SCALEWAY_IMAGE]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
@@ -124,7 +125,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 |``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name        |none          |no      |
 |``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S          |no      |
 |``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image       |ubuntu-trusty |no      |
-
+|``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging   |false         |no      |
 
 ---
 
@@ -133,6 +134,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 ### master (unreleased)
 
 * Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22))
+* Add `--scaleway-debug`
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.2...master)
 
@@ -164,6 +166,12 @@ View full [commits list](https://github.com/scaleway/docker-machine-driver-scale
 
 
 ---
+
+## Debugging
+
+```console
+$ SCALEWAY_DEBUG=1 MACHINE_DEBUG=1 docker-machine ...
+```
 
 ## Development
 
