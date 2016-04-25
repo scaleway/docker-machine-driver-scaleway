@@ -70,7 +70,9 @@ Options:
 
 ### 3. Create your machine
 
-Ensure you have your `ACCESS KEY` and a `TOKEN`
+You need to configure your `ACCESS_KEY` and `TOKEN`, we suggest you to install [scw](https://github.com/scaleway/scaleway-cli) and create a credential file using `scw login`.
+
+In the following example, authentication is done without any other dependencies using the `--scaleway-token=TOKEN` and `--scaleway-organization=ACCESS_KEY` parameters.
 
 ```
 $> docker-machine create -d scaleway --scaleway-token=TOKEN --scaleway-organization=ACCESS_KEY --scaleway-name="cloud-scaleway-1" cloud-scaleway
@@ -93,26 +95,28 @@ Docker is up and running!
 To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env cloud-scaleway
 ```
 
+Note that you can store these parameters in the environment variables `SCALEWAY_TOKEN` and `SCALEWAY_ORGANIZATION`.
+
 ### 4. Test your machine
 
-```
-$> eval $(docker-machine env cloud-scaleway)      # loads environment variables to use your machine
+```console
+$ eval $(docker-machine env cloud-scaleway)      # loads environment variables to use your machine
 
-$> docker-machine ls                              # cloud-scaleway is now activated
+$ docker-machine ls                              # cloud-scaleway is now activated
 NAME             ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
 cloud-scaleway   *        scaleway     Running   tcp://212.47.248.251:2376           v1.10.3
 dev              -        virtualbox   Running   tcp://192.168.99.100:2376           v1.9.1
 
-$> docker run -d -p 80:80 owncloud:8.1            # starts a owncloud image
+$ docker run -d -p 80:80 owncloud:8.1            # starts a owncloud image
 Unable to find image 'owncloud:8.1' locally
 8.1: Pulling from library/owncloud
 ...
 
-$> docker ps                                      # displays your containers
+$ docker ps                                      # displays your containers
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
 ebdd86fcd18b        owncloud:8.1        "/entrypoint.sh apach"   22 seconds ago      Up 20 seconds       0.0.0.0:80->80/tcp   elegant_shirley
 
-$> curl --silent http://212.47.248.251 | head -n1 # you can also open your browser with your IP
+$ curl --silent http://212.47.248.251 | head -n1 # you can also open your browser with your IP
 <!DOCTYPE html>
 ```
 
