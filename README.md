@@ -52,7 +52,7 @@ Options:
    --engine-storage-driver                                                                           Specify a storage driver to use with the engine
    --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
    --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
-   --scaleway-image "ubuntu-trusty"                                                                  Specifies the image [$SCALEWAY_IMAGE]
+   --scaleway-image "ubuntu-xenial"                                                                  Specifies the image [$SCALEWAY_IMAGE]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
@@ -124,7 +124,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 |``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID         |none          |yes     |
 |``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name        |none          |no      |
 |``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S          |no      |
-|``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image       |ubuntu-trusty |no      |
+|``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image       |ubuntu-xenial |no      |
 |``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging   |false         |no      |
 
 ---
@@ -133,6 +133,7 @@ $> curl --silent http://212.47.248.251 | head -n1 # you can also open your brows
 
 ### master (unreleased)
 
+* Switch default image to **Ubuntu Xenial**
 * Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22))
 * Add `--scaleway-debug`
 
