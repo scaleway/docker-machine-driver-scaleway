@@ -11,7 +11,9 @@ A 3rd-party driver plugin for Docker machine to manage your containers on the se
 
 ## Setup
 
-```console
+### Homebrew
+
+```shell
 # install latest release of docker-machine-driver-scaleway and docker-machine using homebrew
 $ brew tap scaleway/scaleway
 $ brew install scaleway/scaleway/docker-machine-driver-scaleway
@@ -19,10 +21,17 @@ $ brew install scaleway/scaleway/docker-machine-driver-scaleway
 # install latest (git) version of docker-machine-driver-scaleway
 $ brew tap scaleway/scaleway
 $ brew install scaleway/scaleway/docker-machine-driver-scaleway --HEAD
+```
 
+### Go
+```shell
 # install latest (git) version of docker-machine-driver-scaleway in your $GOPATH/bin (depends on Golang and docker-machine)
 $ go get -u github.com/scaleway/docker-machine-driver-scaleway
 ```
+
+### Binary
+
+You can find sources and pre-compiled binaries [here](https://github.com/scaleway/docker-machine-driver-scaleway/releases/latest)
 
 ## Usage
 
@@ -32,7 +41,7 @@ You can find your `ACCESS KEY` and generate your `TOKEN` [here](https://cloud.sc
 
 ### 2. Scaleway driver helper
 ```console
-$> docker-machine create -d scaleway -h
+$ docker-machine create -d scaleway -h
 Usage: docker-machine create [OPTIONS] [arg...]
 
 Create a machine
@@ -74,8 +83,8 @@ You need to configure your `ACCESS_KEY` and `TOKEN`, we suggest you to install [
 
 In the following example, authentication is done without any other dependencies using the `--scaleway-token=TOKEN` and `--scaleway-organization=ACCESS_KEY` parameters.
 
-```
-$> docker-machine create -d scaleway --scaleway-token=TOKEN --scaleway-organization=ACCESS_KEY --scaleway-name="cloud-scaleway-1" cloud-scaleway
+```console
+$ docker-machine create -d scaleway --scaleway-token=TOKEN --scaleway-organization=ACCESS_KEY --scaleway-name="cloud-scaleway-1" cloud-scaleway
 Running pre-create checks...
 Creating machine...
 (cloud-scaleway) Creating SSH key...
