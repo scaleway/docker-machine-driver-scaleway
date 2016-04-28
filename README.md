@@ -144,6 +144,12 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ## Changelog
 
+### master (unreleased)
+
+* No entry
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.1.0...master)
+
 ### v1.1.0 (2016-04-28)
 
 * Fix provisionning error with xenial
