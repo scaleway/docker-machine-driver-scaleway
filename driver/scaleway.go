@@ -39,6 +39,7 @@ type Driver struct {
 	name           string
 	image          string
 	stopping       bool
+	created        bool
 	// size         string
 	// userDataFile string
 	// ipv6         bool
@@ -178,6 +179,7 @@ func (d *Driver) Create() (err error) {
 	}
 	log.Infof("Starting server...")
 	err = api.StartServer(cl, d.ServerID, false)
+	d.created = true
 	return
 }
 
@@ -205,6 +207,10 @@ func (d *Driver) GetState() (st state.State, err error) {
 	case "starting":
 		st = state.Starting
 	case "running":
+		if d.created {
+			time.Sleep(60 * time.Second)
+			d.created = false
+		}
 		st = state.Running
 	case "stopping":
 		st = state.Stopping
