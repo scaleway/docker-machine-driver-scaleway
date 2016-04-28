@@ -35,7 +35,7 @@ type Driver struct {
 	Organization   string
 	IPID           string
 	Token          string
-	commercialType string
+	CommercialType string
 	name           string
 	image          string
 	stopping       bool
@@ -46,7 +46,10 @@ type Driver struct {
 
 // DriverName returns the name of the driver
 func (d *Driver) DriverName() string {
-	return "scaleway"
+	if d.CommercialType == "" {
+		return "scaleway"
+	}
+	return fmt.Sprintf("scaleway (%v)", d.CommercialType)
 }
 
 func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {
@@ -78,7 +81,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 			return fmt.Errorf("You must provide organization and token")
 		}
 	}
-	d.commercialType = flags.String("scaleway-commercial-type")
+	d.CommercialType = flags.String("scaleway-commercial-type")
 	d.name = flags.String("scaleway-name")
 	d.image = flags.String("scaleway-image")
 	return
@@ -166,7 +169,7 @@ func (d *Driver) Create() (err error) {
 	d.IPID = ip.IP.ID
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
 		ImageName:      d.image,
-		CommercialType: d.commercialType,
+		CommercialType: d.CommercialType,
 		Name:           d.name,
 		Bootscript:     defaultBootscript,
 		IP:             ip.IP.ID,
