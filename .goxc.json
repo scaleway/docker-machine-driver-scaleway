@@ -17,7 +17,7 @@
         "BuildConstraints": "darwin linux windows freebsd",
         "ResourcesExclude": "*.go .goxc-temp",
         "MainDirsExclude": "vendor,Godeps,testdata",
-        "PackageVersion": "1.0.2+dev",
+        "PackageVersion": "1.1.0",
         "TaskSettings": {
                 "xc": {
                         "GOARM": "5"

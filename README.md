@@ -144,7 +144,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ## Changelog
 
-### master (unreleased)
+### v1.1.0 (2016-04-28)
 
 * Fix provisionning error with xenial
 * `docker-machine ls` displays the commercial-type
@@ -152,7 +152,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 * Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22))
 * Add `--scaleway-debug`
 
-View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.2...master)
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.0.2...v1.1.0)
 
 ### v1.0.2 (2016-04-20)
 
