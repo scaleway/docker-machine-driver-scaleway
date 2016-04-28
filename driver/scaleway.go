@@ -50,7 +50,7 @@ func (d *Driver) DriverName() string {
 	if d.CommercialType == "" {
 		return "scaleway"
 	}
-	return fmt.Sprintf("scaleway (%v)", d.CommercialType)
+	return fmt.Sprintf("scaleway(%v)", d.CommercialType)
 }
 
 func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {

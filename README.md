@@ -146,6 +146,8 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ### master (unreleased)
 
+* Fix provisionning error with xenial
+* `docker-machine ls` displays the commercial-type
 * Switch default image to **Ubuntu Xenial**
 * Add `--scaleway-image` ([#22](https://github.com/scaleway/docker-machine-driver-scaleway/issues/22))
 * Add `--scaleway-debug`
