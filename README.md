@@ -146,7 +146,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ### master (unreleased)
 
-* No entry
+* Add `--scaleway-ip` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.1.0...master)
 

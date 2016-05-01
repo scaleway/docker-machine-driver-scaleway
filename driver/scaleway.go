@@ -15,6 +15,7 @@ import (
 	"github.com/docker/machine/libmachine/mcnflag"
 	"github.com/docker/machine/libmachine/ssh"
 	"github.com/docker/machine/libmachine/state"
+	"github.com/moul/anonuuid"
 	"github.com/scaleway/scaleway-cli/pkg/api"
 	"github.com/scaleway/scaleway-cli/pkg/config"
 )
@@ -38,6 +39,7 @@ type Driver struct {
 	CommercialType string
 	name           string
 	image          string
+	ip             string
 	stopping       bool
 	created        bool
 	// size         string
@@ -85,6 +87,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.CommercialType = flags.String("scaleway-commercial-type")
 	d.name = flags.String("scaleway-name")
 	d.image = flags.String("scaleway-image")
+	d.ip = flags.String("scaleway-ip")
 	return
 }
 
@@ -125,6 +128,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Usage:  "Specifies the image",
 			Value:  defaultImage,
 		},
+		mcnflag.StringFlag{
+			EnvVar: "SCALEWAY_IP",
+			Name:   "scaleway-ip",
+			Usage:  "Specifies the IP address",
+			Value:  "",
+		},
 		mcnflag.BoolFlag{
 			EnvVar: "SCALEWAY_DEBUG",
 			Name:   "scaleway-debug",
@@ -147,7 +156,6 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 func (d *Driver) Create() (err error) {
 	var publicKey []byte
 	var cl *api.ScalewayAPI
-	var ip *api.ScalewayGetIP
 
 	log.Infof("Creating SSH key...")
 	if err = ssh.GenerateSSHKey(d.GetSSHKeyPath()); err != nil {
@@ -162,18 +170,54 @@ func (d *Driver) Create() (err error) {
 	if err != nil {
 		return
 	}
-	ip, err = cl.NewIP()
-	if err != nil {
-		return
+	if d.ip != "" {
+		var ips *api.ScalewayGetIPS
+
+		ips, err = cl.GetIPS()
+		if err != nil {
+			return
+		}
+		if anonuuid.IsUUID(d.ip) == nil {
+			d.IPID = d.ip
+			for _, ip := range ips.IPS {
+				if ip.ID == d.ip {
+					d.IPAddress = ip.Address
+					break
+				}
+			}
+			if d.IPAddress == "" {
+				err = fmt.Errorf("IP UUID %v not found", d.IPID)
+				return
+			}
+		} else {
+			d.IPAddress = d.ip
+			for _, ip := range ips.IPS {
+				if ip.Address == d.ip {
+					d.IPID = ip.ID
+					break
+				}
+			}
+			if d.IPID == "" {
+				err = fmt.Errorf("IP address %v not found", d.ip)
+				return
+			}
+		}
+	} else {
+		var ip *api.ScalewayGetIP
+
+		ip, err = cl.NewIP()
+		if err != nil {
+			return
+		}
+		d.IPAddress = ip.IP.Address
+		d.IPID = ip.IP.ID
 	}
-	d.IPAddress = ip.IP.Address
-	d.IPID = ip.IP.ID
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
 		ImageName:      d.image,
 		CommercialType: d.CommercialType,
 		Name:           d.name,
 		Bootscript:     defaultBootscript,
-		IP:             ip.IP.ID,
+		IP:             d.IPID,
 		Env: strings.Join([]string{"AUTHORIZED_KEY",
 			strings.Replace(string(publicKey[:len(publicKey)-1]), " ", "_", -1)}, "="),
 	})
