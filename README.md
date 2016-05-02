@@ -62,6 +62,7 @@ Options:
    --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
    --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
    --scaleway-image "ubuntu-xenial"                                                                  Specifies the image [$SCALEWAY_IMAGE]
+   --scaleway-ip                                                                                     Specifies the IP address [$SCALEWAY_IP]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
@@ -139,6 +140,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 |``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S          |no      |
 |``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image       |ubuntu-xenial |no      |
 |``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging   |false         |no      |
+|``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP          |""            |no      |
 
 ---
 
