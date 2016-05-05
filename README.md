@@ -66,6 +66,7 @@ Options:
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
+   --scaleway-volumes                                                                                Attach additional volume (e.g., 50G) [$SCALEWAY_VOLUMES]
    --swarm                                                                                           Configure Machine with Swarm
    --swarm-addr                                                                                      addr to advertise for Swarm (default: detect and use the machine IP)
    --swarm-discovery                                                                                 Discovery service to use with Swarm
@@ -132,15 +133,16 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ## Options
 
-|Option Name                                                     |Description        |Default Value |required|
-|----------------------------------------------------------------|-------------------|--------------|--------|
-|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID  |none          |yes     |
-|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID         |none          |yes     |
-|``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name        |none          |no      |
-|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type    |VC1S          |no      |
-|``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image       |ubuntu-xenial |no      |
-|``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging   |false         |no      |
-|``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP          |""            |no      |
+|Option Name                                                     |Description              |Default Value |required|
+|----------------------------------------------------------------|-------------------------|--------------|--------|
+|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID        |none          |yes     |
+|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID               |none          |yes     |
+|``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name              |none          |no      |
+|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type          |VC1S          |no      |
+|``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image             |ubuntu-xenial |no      |
+|``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging         |false         |no      |
+|``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP                |""            |no      |
+|``--scaleway-volumes`` or ``$SCALEWAY_VOLUMES``                 |Attach additional volume |""            |no      |
 
 ---
 
@@ -148,7 +150,8 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ### master (unreleased)
 
-* Add `--scaleway-ip` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))
+* Add `--scaleway-volumes` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))
+* Add `--scaleway-ip` ([#40](https://github.com/scaleway/docker-machine-driver-scaleway/issues/40))
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.1.0...master)
 
