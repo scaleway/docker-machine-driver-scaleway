@@ -146,6 +146,43 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ---
 
+## Examples
+
+```bash
+# create a Scaleway docker host
+docker-machine create -d scaleway my-scaleway-docker-machine
+
+# create a VC1M server, name it my-docker-machine-1 on Scaleway and my-docker1 in the local Docker machine, with debug enabled
+docker-machine create -d scaleway \
+  --scaleway-name="my-docker-machine-1" --scaleway-debug \
+  --scaleway-commercial-type="VC1M" --scaleway-volumes="50G" \
+  my-docker1
+
+# create a swarm master on a VC1M
+docker-machine create -d scaleway \
+  --scaleway-commercial-type="VC1M" --scaleway-volumes="50G" \
+  --swarm --swarm-master --swarm-discovery="XXX"
+  my-swarm-manager
+
+# create a swarm slave on a VC1S
+docker-machine create -d scaleway \
+  --scaleway-commercial-type="VC1S" \
+  --swarm --swarm-discovery="XXX"
+  my-swarm-node
+  
+# create a docker host on the different server offers
+docker-machine create -d scaleway --scaleway-commercial-type="VC1S"                           my-vc1s-node
+docker-machine create -d scaleway --scaleway-commercial-type="VC1M" --scaleway-volumes="50G"  my-vc1m-node
+docker-machine create -d scaleway --scaleway-commercial-type="VC1L" --scaleway-volumes="100G" my-vc1l-node
+docker-machine create -d scaleway --scaleway-commercial-type="C2S"                            my-c2s-node
+docker-machine create -d scaleway --scaleway-commercial-type="C2M"                            my-c2m-node
+docker-machine create -d scaleway --scaleway-commercial-type="C2L"                            my-c2l-node
+```
+
+More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/master/examples).
+
+--
+
 ## Changelog
 
 ### master (unreleased)
