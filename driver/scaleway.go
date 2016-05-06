@@ -40,9 +40,9 @@ type Driver struct {
 	name           string
 	image          string
 	ip             string
+	volumes        string
 	stopping       bool
 	created        bool
-	// size         string
 	// userDataFile string
 	// ipv6         bool
 }
@@ -88,6 +88,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.name = flags.String("scaleway-name")
 	d.image = flags.String("scaleway-image")
 	d.ip = flags.String("scaleway-ip")
+	d.volumes = flags.String("scaleway-volumes")
 	return
 }
 
@@ -132,6 +133,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			EnvVar: "SCALEWAY_IP",
 			Name:   "scaleway-ip",
 			Usage:  "Specifies the IP address",
+			Value:  "",
+		},
+		mcnflag.StringFlag{
+			EnvVar: "SCALEWAY_VOLUMES",
+			Name:   "scaleway-volumes",
+			Usage:  "Attach additional volume (e.g., 50G)",
 			Value:  "",
 		},
 		mcnflag.BoolFlag{
@@ -213,11 +220,12 @@ func (d *Driver) Create() (err error) {
 		d.IPID = ip.IP.ID
 	}
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
-		ImageName:      d.image,
-		CommercialType: d.CommercialType,
-		Name:           d.name,
-		Bootscript:     defaultBootscript,
-		IP:             d.IPID,
+		ImageName:         d.image,
+		CommercialType:    d.CommercialType,
+		Name:              d.name,
+		Bootscript:        defaultBootscript,
+		AdditionalVolumes: d.volumes,
+		IP:                d.IPID,
 		Env: strings.Join([]string{"AUTHORIZED_KEY",
 			strings.Replace(string(publicKey[:len(publicKey)-1]), " ", "_", -1)}, "="),
 	})
