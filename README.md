@@ -169,7 +169,7 @@ docker-machine create -d scaleway \
   --scaleway-commercial-type="VC1S" \
   --swarm --swarm-discovery="XXX"
   my-swarm-node
-  
+
 # create a docker host on the different server offers
 docker-machine create -d scaleway --scaleway-commercial-type="VC1S"                           my-vc1s-node
 docker-machine create -d scaleway --scaleway-commercial-type="VC1M" --scaleway-volumes="50G"  my-vc1m-node
@@ -185,12 +185,12 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ## Changelog
 
-### master (unreleased)
+### v1.2.0 (2016-05-08)
 
 * Add `--scaleway-volumes` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))
 * Add `--scaleway-ip` ([#40](https://github.com/scaleway/docker-machine-driver-scaleway/issues/40))
 
-View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.1.0...master)
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.1.0...v1.2.0)
 
 ### v1.1.0 (2016-04-28)
 

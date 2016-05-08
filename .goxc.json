@@ -14,10 +14,10 @@
                 "downloads-page",
                 "publish-github"
         ],
-        "BuildConstraints": "darwin linux windows freebsd",
+        "BuildConstraints": "darwin linux freebsd",
         "ResourcesExclude": "*.go .goxc-temp",
         "MainDirsExclude": "vendor,Godeps,testdata",
-        "PackageVersion": "1.1.0+dev",
+        "PackageVersion": "1.2.0",
         "TaskSettings": {
                 "xc": {
                         "GOARM": "5"
