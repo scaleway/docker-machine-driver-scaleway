@@ -185,6 +185,12 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ## Changelog
 
+### master (unreleased)
+
+* No entry
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.2.0...master)
+
 ### v1.2.0 (2016-05-08)
 
 * Add `--scaleway-volumes` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))

@@ -1,4 +1,4 @@
-package scaleway
+spackage scaleway
 
 import (
 	"errors"
@@ -22,7 +22,7 @@ import (
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION           = "v1.2.0"
+	VERSION           = "v1.2.0+dev"
 	defaultImage      = "ubuntu-xenial"
 	defaultBootscript = "docker"
 )
