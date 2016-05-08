@@ -1,4 +1,4 @@
-spackage scaleway
+package scaleway
 
 import (
 	"errors"
