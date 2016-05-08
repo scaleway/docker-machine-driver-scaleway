@@ -10,7 +10,7 @@
 		},
 		{
 			"ImportPath": "github.com/creack/goselect",
-			"Rev": "9d6356225769a093a90601efec3edc649dc4b04b"
+			"Rev": "40085cf5fd629ccd88dc328895f1f137d09a1de4"
 		},
 		{
 			"ImportPath": "github.com/docker/docker/pkg/namesgenerator",
@@ -101,8 +101,8 @@
 		},
 		{
 			"ImportPath": "github.com/moul/gotty-client",
-			"Comment": "v1.5.0-14-g770fab0",
-			"Rev": "770fab0722cf531dc442e8782296aebf700e137e"
+			"Comment": "v1.5.0-16-gf002ddb",
+			"Rev": "f002ddbff9f8a9fa6d7cb05769cd272dcda04957"
 		},
 		{
 			"ImportPath": "github.com/moul/http2curl",
