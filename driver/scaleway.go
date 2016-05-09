@@ -41,6 +41,7 @@ type Driver struct {
 	image          string
 	ip             string
 	volumes        string
+	IPPersistant   bool
 	stopping       bool
 	created        bool
 	// userDataFile string
@@ -159,27 +160,11 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 	}
 }
 
-// Create configures and starts a scaleway server
-func (d *Driver) Create() (err error) {
-	var publicKey []byte
-	var cl *api.ScalewayAPI
-
-	log.Infof("Creating SSH key...")
-	if err = ssh.GenerateSSHKey(d.GetSSHKeyPath()); err != nil {
-		return err
-	}
-	publicKey, err = ioutil.ReadFile(d.GetSSHKeyPath() + ".pub")
-	if err != nil {
-		return
-	}
-	log.Infof("Creating server...")
-	cl, err = d.getClient()
-	if err != nil {
-		return
-	}
+func (d *Driver) resolveIP(cl *api.ScalewayAPI) (err error) {
 	if d.ip != "" {
 		var ips *api.ScalewayGetIPS
 
+		d.IPPersistant = true
 		ips, err = cl.GetIPS()
 		if err != nil {
 			return
@@ -218,6 +203,30 @@ func (d *Driver) Create() (err error) {
 		}
 		d.IPAddress = ip.IP.Address
 		d.IPID = ip.IP.ID
+	}
+	return
+}
+
+// Create configures and starts a scaleway server
+func (d *Driver) Create() (err error) {
+	var publicKey []byte
+	var cl *api.ScalewayAPI
+
+	log.Infof("Creating SSH key...")
+	if err = ssh.GenerateSSHKey(d.GetSSHKeyPath()); err != nil {
+		return err
+	}
+	publicKey, err = ioutil.ReadFile(d.GetSSHKeyPath() + ".pub")
+	if err != nil {
+		return
+	}
+	log.Infof("Creating server...")
+	cl, err = d.getClient()
+	if err != nil {
+		return
+	}
+	if err = d.resolveIP(cl); err != nil {
+		return
 	}
 	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
 		ImageName:         d.image,
@@ -320,7 +329,9 @@ func (d *Driver) Remove() (err error) {
 			break
 		}
 	}
-	err = cl.DeleteIP(d.IPID)
+	if !d.IPPersistant {
+		err = cl.DeleteIP(d.IPID)
+	}
 	return
 }
 
