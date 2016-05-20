@@ -185,6 +185,12 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ## Changelog
 
+### master (unreleased)
+
+* No entry
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.2.1...master)
+
 ### v1.2.1 (2016-05-20)
 
 * Delete IP only when she has been created by docker-machine
