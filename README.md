@@ -66,6 +66,7 @@ Options:
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
+   --scaleway-user "root"                                                                            Specifies SSH user name [$SCALEWAY_USER]
    --scaleway-volumes                                                                                Attach additional volume (e.g., 50G) [$SCALEWAY_VOLUMES]
    --swarm                                                                                           Configure Machine with Swarm
    --swarm-addr                                                                                      addr to advertise for Swarm (default: detect and use the machine IP)
@@ -187,7 +188,7 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ### master (unreleased)
 
-* No entry
+* Add `--scaleway-user`
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.2.1...master)
 
