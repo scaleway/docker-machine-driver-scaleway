@@ -65,6 +65,7 @@ Options:
    --scaleway-ip                                                                                     Specifies the IP address [$SCALEWAY_IP]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
+   --scaleway-port "22"                                                                              Specifies SSH port [$SCALEWAY_PORT]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
    --scaleway-user "root"                                                                            Specifies SSH user name [$SCALEWAY_USER]
    --scaleway-volumes                                                                                Attach additional volume (e.g., 50G) [$SCALEWAY_VOLUMES]
@@ -145,6 +146,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 |``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP                |""            |no      |
 |``--scaleway-volumes`` or ``$SCALEWAY_VOLUMES``                 |Attach additional volume |""            |no      |
 |``--scaleway-user`` or ``$SCALEWAY_USER``                       |SSH User                 |root          |no      |
+|``--scaleway-port`` or ``$SCALEWAY_PORT``                       |SSH port                 |22            |no      |
 
 ---
 
@@ -189,6 +191,7 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ### master (unreleased)
 
+* Add `--scaleway-port`
 * Add `--scaleway-user`
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.2.1...master)
