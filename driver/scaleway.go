@@ -91,6 +91,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.ip = flags.String("scaleway-ip")
 	d.volumes = flags.String("scaleway-volumes")
 	d.BaseDriver.SSHUser = flags.String("scaleway-user")
+	d.BaseDriver.SSHPort = flags.Int("scaleway-port")
 	return
 }
 
@@ -148,6 +149,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Name:   "scaleway-user",
 			Usage:  "Specifies SSH user name",
 			Value:  drivers.DefaultSSHUser,
+		},
+		mcnflag.IntFlag{
+			EnvVar: "SCALEWAY_PORT",
+			Name:   "scaleway-port",
+			Usage:  "Specifies SSH port",
+			Value:  drivers.DefaultSSHPort,
 		},
 		mcnflag.BoolFlag{
 			EnvVar: "SCALEWAY_DEBUG",
