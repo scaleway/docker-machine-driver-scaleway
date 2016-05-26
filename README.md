@@ -144,6 +144,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 |``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging         |false         |no      |
 |``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP                |""            |no      |
 |``--scaleway-volumes`` or ``$SCALEWAY_VOLUMES``                 |Attach additional volume |""            |no      |
+|``--scaleway-user`` or ``$SCALEWAY_USER``                       |SSH User                 |root          |no      |
 
 ---
 
