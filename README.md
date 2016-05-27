@@ -185,7 +185,56 @@ docker-machine create -d scaleway --scaleway-commercial-type="C2L"              
 
 More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/master/examples).
 
---
+---
+
+## How to start a machine on ARM
+
+ To launch a machine on ARM, we need to start a server with the image docker of Scaleway and overload the install script of Docker to do nothing
+
+```console
+$ curl -sL http://bit.ly/1sf3j8V # the install script of docker will be overloaded with that, which does nothing
+#!/bin/sh
+
+exit 0
+
+$ docker-machine create -d scaleway --scaleway-commercial-type=C1 --scaleway-image=docker --engine-install-url="http://bit.ly/1sf3j8V" arm-machine
+Running pre-create checks...
+Creating machine...
+(arm-machine) Creating SSH key...
+(arm-machine) Creating server...
+(arm-machine) Starting server...
+Waiting for machine to be running, this may take a few minutes...
+Detecting operating system of created instance...
+Waiting for SSH to be available...
+Detecting the provisioner...
+Provisioning with ubuntu(systemd)...
+Installing Docker...
+Copying certs to the local machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env arm-machine
+
+$ eval $(docker-machine env arm-machine) # arm-machine is now activated
+
+$ docker run -it --rm multiarch/ubuntu-core:amd64-xenial # test an ARM container
+Unable to find image 'multiarch/ubuntu-core:armhf-xenial' locally
+armhf-xenial: Pulling from multiarch/ubuntu-core
+9d12e3a67364: Pull complete
+441bb0ba1886: Pull complete
+4d9398209a87: Pull complete
+89c0bb260a76: Pull complete
+Digest: sha256:9b01beb4cdf0e1814583113105965f6b82a2fa618f403075f5ff653ac797911b
+Status: Downloaded newer image for multiarch/ubuntu-core:armhf-xenial
+
+root@ab197ef8bd3c:/# uname -a
+Linux ab197ef8bd3c 4.5.4-docker-1 #1 SMP Thu May 19 18:02:43 UTC 2016 armv7l armv7l armv7l GNU/Linux
+root@ab197ef8bd3c:/# exit
+```
+
+
+---
 
 ## Changelog
 
