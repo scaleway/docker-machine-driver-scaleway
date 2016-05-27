@@ -187,12 +187,12 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ---
 
-## How to start a machine on ARM
+## How to start an ARM server
 
- To launch a machine on ARM, we need to start a server with the image docker of Scaleway and overload the install script of Docker to do nothing
+To launch a an ARM server, you need to start a server with our Docker Image, and use an empty install script.
 
 ```console
-$ curl -sL http://bit.ly/1sf3j8V # the install script of docker will be overloaded with that, which does nothing
+$ curl -sL http://bit.ly/1sf3j8V
 #!/bin/sh
 
 exit 0
@@ -218,7 +218,7 @@ To see how to connect your Docker Client to the Docker Engine running on this vi
 
 $ eval $(docker-machine env arm-machine) # arm-machine is now activated
 
-$ docker run -it --rm multiarch/ubuntu-core:amd64-xenial # test an ARM container
+$ docker run -it --rm multiarch/ubuntu-core:armhf-xenial # test an ARM container
 Unable to find image 'multiarch/ubuntu-core:armhf-xenial' locally
 armhf-xenial: Pulling from multiarch/ubuntu-core
 9d12e3a67364: Pull complete
