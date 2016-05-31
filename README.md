@@ -189,7 +189,7 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 ## How to start an ARM server
 
-To launch a an ARM server, you need to start a server with our Docker Image, and use an empty install script.
+To launch an ARM server, you need to start a server with our Docker Image, and use an empty install script.
 
 ```console
 $ curl -sL http://bit.ly/1sf3j8V
