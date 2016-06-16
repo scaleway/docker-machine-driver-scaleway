@@ -275,6 +275,7 @@ type ConfigCreateServer struct {
 	DynamicIPRequired bool
 	IP                string
 	CommercialType    string
+	EnableIPV6        bool
 }
 
 // CreateServer creates a server using API based on typical server fields
@@ -282,6 +283,9 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 	commercialType := os.Getenv("SCW_COMMERCIAL_TYPE")
 	if commercialType == "" {
 		commercialType = c.CommercialType
+	}
+	if len(commercialType) < 2 {
+		return "", errors.New("Invalid commercial type")
 	}
 
 	if c.Name == "" {
@@ -293,6 +297,7 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 	server.CommercialType = commercialType
 	server.Volumes = make(map[string]string)
 	server.DynamicIPRequired = &c.DynamicIPRequired
+	server.EnableIPV6 = c.EnableIPV6
 	if commercialType == "" {
 		return "", errors.New("You need to specify a commercial-type")
 	}
