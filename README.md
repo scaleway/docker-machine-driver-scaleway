@@ -240,6 +240,7 @@ root@ab197ef8bd3c:/# exit
 
 ### master (unreleased)
 
+* Add `--scaleway-ipv6` ([#50](https://github.com/scaleway/docker-machine-driver-scaleway/issues/50))
 * Add `--scaleway-port`
 * Add `--scaleway-user`
 

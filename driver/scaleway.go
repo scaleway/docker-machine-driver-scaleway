@@ -44,8 +44,8 @@ type Driver struct {
 	IPPersistant   bool
 	stopping       bool
 	created        bool
+	ipv6           bool
 	// userDataFile string
-	// ipv6         bool
 }
 
 // DriverName returns the name of the driver
@@ -90,6 +90,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.image = flags.String("scaleway-image")
 	d.ip = flags.String("scaleway-ip")
 	d.volumes = flags.String("scaleway-volumes")
+	d.ipv6 = flags.Bool("scaleway-ipv6")
 	d.BaseDriver.SSHUser = flags.String("scaleway-user")
 	d.BaseDriver.SSHPort = flags.Int("scaleway-port")
 	return
@@ -161,15 +162,15 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Name:   "scaleway-debug",
 			Usage:  "Enables Scaleway client debugging",
 		},
+		mcnflag.BoolFlag{
+			EnvVar: "SCALEWAY_IPV6",
+			Name:   "scaleway-ipv6",
+			Usage:  "Enable ipv6",
+		},
 		// mcnflag.StringFlag{
 		//     EnvVar: "SCALEWAY_USERDATA",
 		//     Name:   "scaleway-userdata",
 		//     Usage:  "Path to file with user-data",
-		// },
-		// mcnflag.BoolFlag{
-		// 	EnvVar: "SCALEWAY_IPV6",
-		// 	Name:   "scaleway-ipv6",
-		// 	Usage:  "Enable ipv6",
 		// },
 	}
 }
@@ -249,6 +250,7 @@ func (d *Driver) Create() (err error) {
 		Bootscript:        defaultBootscript,
 		AdditionalVolumes: d.volumes,
 		IP:                d.IPID,
+		EnableIPV6:        d.ipv6,
 		Env: strings.Join([]string{"AUTHORIZED_KEY",
 			strings.Replace(string(publicKey[:len(publicKey)-1]), " ", "_", -1)}, "="),
 	})
