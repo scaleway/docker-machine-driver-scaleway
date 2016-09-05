@@ -58,7 +58,7 @@ func (d *Driver) DriverName() string {
 
 func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {
 	if scwAPI == nil {
-		scwAPI, err = api.NewScalewayAPI(d.Organization, d.Token, "docker-machine-driver-scaleway/%v"+VERSION)
+		scwAPI, err = api.NewScalewayAPI(d.Organization, d.Token, "docker-machine-driver-scaleway/"+VERSION)
 	}
 	cl = scwAPI
 	return
