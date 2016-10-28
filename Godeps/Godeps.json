@@ -1,95 +1,98 @@
 {
 	"ImportPath": "github.com/scaleway/docker-machine-driver-scaleway",
-	"GoVersion": "go1.6",
+	"GoVersion": "go1.7",
 	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/Sirupsen/logrus",
-			"Comment": "v0.10.0-19-gf3cfb45",
-			"Rev": "f3cfb454f4c209e6668c95216c4744b8fddb2356"
+			"Comment": "v0.10.0-38-g3ec0642",
+			"Rev": "3ec0642a7fb6488f65b06f9040adc67e3990296a"
 		},
 		{
 			"ImportPath": "github.com/creack/goselect",
-			"Rev": "40085cf5fd629ccd88dc328895f1f137d09a1de4"
+			"Rev": "1bd5ca702c6154bccc56ecd598932ee8b295cab2"
 		},
 		{
 			"ImportPath": "github.com/docker/docker/pkg/namesgenerator",
-			"Comment": "v1.4.1-12912-g3d69595",
-			"Rev": "3d69595a3189d15aaab82b0721508e640b26ccd0"
+			"Comment": "docs-v1.12.0-rc4-2016-07-15-2466-g0aaef96",
+			"Rev": "0aaef963a880476d6637ad798c30520193ee04e3"
 		},
 		{
 			"ImportPath": "github.com/docker/docker/pkg/random",
-			"Comment": "v1.4.1-12912-g3d69595",
-			"Rev": "3d69595a3189d15aaab82b0721508e640b26ccd0"
+			"Comment": "docs-v1.12.0-rc4-2016-07-15-2466-g0aaef96",
+			"Rev": "0aaef963a880476d6637ad798c30520193ee04e3"
 		},
 		{
 			"ImportPath": "github.com/docker/docker/pkg/term",
-			"Comment": "v1.4.1-12912-g3d69595",
-			"Rev": "3d69595a3189d15aaab82b0721508e640b26ccd0"
+			"Comment": "docs-v1.12.0-rc4-2016-07-15-2466-g0aaef96",
+			"Rev": "0aaef963a880476d6637ad798c30520193ee04e3"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/drivers",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/drivers/plugin",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/drivers/plugin/localbinary",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/drivers/rpc",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/log",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/mcnflag",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/mcnutils",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/ssh",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/state",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/libmachine/version",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/docker/machine/version",
-			"Comment": "v0.7.0-48-gc120a92",
-			"Rev": "c120a925f3fade5930bb66483287e903e4a2a130"
+			"Comment": "docs-v0.8.2-2016-09-26-45-g802c6a1",
+			"Rev": "802c6a1bee3b8892bdd3e9444b84d67567f3b769"
 		},
 		{
 			"ImportPath": "github.com/dustin/go-humanize",
-			"Rev": "499693e27ee0d14ffab67c31ad065fdb3d34ea75"
+			"Rev": "bd88f87ad3a420f7bcf05e90566fd1ceb351fa7f"
 		},
 		{
 			"ImportPath": "github.com/gorilla/websocket",
-			"Comment": "v1.0.0-12-ga687089",
-			"Rev": "a68708917c6a4f06314ab4e52493cc61359c9d42"
+			"Comment": "v1.0.0-34-g2aff870",
+			"Rev": "2aff870ef83507abb46472eae82449f7a4c464c5"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-isatty",
@@ -106,62 +109,66 @@
 			"Rev": "92f0c24d5b2985522174e3ff5ad882a1c4d7f1d9"
 		},
 		{
-			"ImportPath": "github.com/moul/http2curl",
-			"Rev": "b1479103caacaa39319f75e7f57fc545287fca0d"
-		},
-		{
 			"ImportPath": "github.com/renstrom/fuzzysearch/fuzzy",
 			"Comment": "v1.0.0-2-g2d205ac",
 			"Rev": "2d205ac6ec17a839a94bdbfd16d2fa6c6dada2e0"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/api",
-			"Comment": "v1.9.0-74-ge6795dc",
-			"Rev": "e6795dc6f2b9d30ab637a3f47e50d66faa5b0511"
+			"Comment": "v1.11-4-g88132ec",
+			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/config",
-			"Comment": "v1.9.0-74-ge6795dc",
-			"Rev": "e6795dc6f2b9d30ab637a3f47e50d66faa5b0511"
+			"Comment": "v1.11-4-g88132ec",
+			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/scwversion",
-			"Comment": "v1.9.0-74-ge6795dc",
-			"Rev": "e6795dc6f2b9d30ab637a3f47e50d66faa5b0511"
+			"Comment": "v1.11-4-g88132ec",
+			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/sshcommand",
-			"Comment": "v1.9.0-74-ge6795dc",
-			"Rev": "e6795dc6f2b9d30ab637a3f47e50d66faa5b0511"
+			"Comment": "v1.11-4-g88132ec",
+			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/utils",
-			"Comment": "v1.9.0-74-ge6795dc",
-			"Rev": "e6795dc6f2b9d30ab637a3f47e50d66faa5b0511"
+			"Comment": "v1.11-4-g88132ec",
+			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/curve25519",
-			"Rev": "f3241ce8505855877cc8a9717bd61a0f7c4ea83c"
+			"Rev": "ca7e7f10cb9fd9c1a6ff7f60436c086d73714180"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/ed25519",
-			"Rev": "f3241ce8505855877cc8a9717bd61a0f7c4ea83c"
+			"Rev": "ca7e7f10cb9fd9c1a6ff7f60436c086d73714180"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/ed25519/internal/edwards25519",
-			"Rev": "f3241ce8505855877cc8a9717bd61a0f7c4ea83c"
+			"Rev": "ca7e7f10cb9fd9c1a6ff7f60436c086d73714180"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/ssh",
-			"Rev": "f3241ce8505855877cc8a9717bd61a0f7c4ea83c"
+			"Rev": "ca7e7f10cb9fd9c1a6ff7f60436c086d73714180"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/ssh/terminal",
-			"Rev": "f3241ce8505855877cc8a9717bd61a0f7c4ea83c"
+			"Rev": "ca7e7f10cb9fd9c1a6ff7f60436c086d73714180"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "8b4af36cd21a1f85a7484b49feb7c79363106d8e"
+		},
+		{
+			"ImportPath": "golang.org/x/sync/errgroup",
+			"Rev": "316e794f7b5e3df4e95175a45a5fb8b12f85cb4f"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",
-			"Rev": "62bee037599929a6e9146f29d10dd5208c43507d"
+			"Rev": "9bb9f0998d48b31547d975974935ae9b48c7a03c"
 		}
 	]
 }
