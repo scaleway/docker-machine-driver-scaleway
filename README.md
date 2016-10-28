@@ -251,7 +251,7 @@ root@ab197ef8bd3c:/# exit
 
 ## Changelog
 
-### master (unreleased)
+### v1.3 (2016-10-28)
 
 * Add `--scaleway-region` to start server on different location e.g. `ams1` (Amsterdam)
 * Fix `user-agent` format
@@ -259,7 +259,7 @@ root@ab197ef8bd3c:/# exit
 * Add `--scaleway-port`
 * Add `--scaleway-user`
 
-View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.2.1...master)
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.2.1...v1.3)
 
 ### v1.2.1 (2016-05-20)
 

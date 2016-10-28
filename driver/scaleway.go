@@ -23,7 +23,7 @@ import (
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION           = "v1.2.1+dev"
+	VERSION           = "v1.3"
 	defaultImage      = "ubuntu-xenial"
 	defaultBootscript = "docker"
 )
