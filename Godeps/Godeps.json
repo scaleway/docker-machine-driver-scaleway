@@ -109,12 +109,21 @@
 			"Rev": "92f0c24d5b2985522174e3ff5ad882a1c4d7f1d9"
 		},
 		{
+			"ImportPath": "github.com/moul/http2curl",
+			"Rev": "b1479103caacaa39319f75e7f57fc545287fca0d"
+		},
+		{
 			"ImportPath": "github.com/renstrom/fuzzysearch/fuzzy",
 			"Comment": "v1.0.0-2-g2d205ac",
 			"Rev": "2d205ac6ec17a839a94bdbfd16d2fa6c6dada2e0"
 		},
 		{
 			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/api",
+			"Comment": "v1.11-4-g88132ec",
+			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
+		},
+		{
+			"ImportPath": "github.com/scaleway/scaleway-cli/pkg/clilogger",
 			"Comment": "v1.11-4-g88132ec",
 			"Rev": "88132ecdd39da62f7c73c5a8e1a383d7da5e0e09"
 		},

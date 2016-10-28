@@ -17,6 +17,7 @@ import (
 	"github.com/docker/machine/libmachine/state"
 	"github.com/moul/anonuuid"
 	"github.com/scaleway/scaleway-cli/pkg/api"
+	"github.com/scaleway/scaleway-cli/pkg/clilogger"
 	"github.com/scaleway/scaleway-cli/pkg/config"
 )
 
@@ -37,6 +38,7 @@ type Driver struct {
 	IPID           string
 	Token          string
 	CommercialType string
+	Region         string
 	name           string
 	image          string
 	ip             string
@@ -56,9 +58,12 @@ func (d *Driver) DriverName() string {
 	return fmt.Sprintf("scaleway(%v)", d.CommercialType)
 }
 
-func (d *Driver) getClient() (cl *api.ScalewayAPI, err error) {
+func (d *Driver) getClient(region string) (cl *api.ScalewayAPI, err error) {
 	if scwAPI == nil {
-		scwAPI, err = api.NewScalewayAPI(d.Organization, d.Token, "docker-machine-driver-scaleway/"+VERSION)
+		if region == "" {
+			region = "par1"
+		}
+		scwAPI, err = api.NewScalewayAPI(d.Organization, d.Token, "docker-machine-driver-scaleway/"+VERSION, region, clilogger.SetupLogger)
 	}
 	cl = scwAPI
 	return
@@ -86,6 +91,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 		}
 	}
 	d.CommercialType = flags.String("scaleway-commercial-type")
+	d.Region = flags.String("scaleway-region")
 	d.name = flags.String("scaleway-name")
 	d.image = flags.String("scaleway-image")
 	d.ip = flags.String("scaleway-ip")
@@ -126,6 +132,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Name:   "scaleway-commercial-type",
 			Usage:  "Specifies the commercial type",
 			Value:  "VC1S",
+		},
+		mcnflag.StringFlag{
+			EnvVar: "SCALEWAY_REGION",
+			Name:   "scaleway-region",
+			Usage:  "Specifies the location (par1,ams1)",
+			Value:  "par1",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "SCALEWAY_IMAGE",
@@ -236,7 +248,7 @@ func (d *Driver) Create() (err error) {
 		return
 	}
 	log.Infof("Creating server...")
-	cl, err = d.getClient()
+	cl, err = d.getClient(d.Region)
 	if err != nil {
 		return
 	}
@@ -274,7 +286,7 @@ func (d *Driver) GetState() (st state.State, err error) {
 	var cl *api.ScalewayAPI
 
 	st = state.Error
-	cl, err = d.getClient()
+	cl, err = d.getClient(d.Region)
 	if err != nil {
 		return
 	}
@@ -314,7 +326,7 @@ func (d *Driver) GetURL() (string, error) {
 func (d *Driver) postAction(action string) (err error) {
 	var cl *api.ScalewayAPI
 
-	cl, err = d.getClient()
+	cl, err = d.getClient(d.Region)
 	if err != nil {
 		return
 	}
@@ -331,7 +343,7 @@ func (d *Driver) Kill() error {
 func (d *Driver) Remove() (err error) {
 	var cl *api.ScalewayAPI
 
-	cl, err = d.getClient()
+	cl, err = d.getClient(d.Region)
 	if err != nil {
 		return
 	}
