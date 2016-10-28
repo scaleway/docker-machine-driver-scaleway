@@ -73,20 +73,23 @@ Options:
    --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
    --scaleway-image "ubuntu-xenial"                                                                  Specifies the image [$SCALEWAY_IMAGE]
    --scaleway-ip                                                                                     Specifies the IP address [$SCALEWAY_IP]
+   --scaleway-ipv6                                                                                   Enable ipv6 [$SCALEWAY_IPV6]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
    --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
    --scaleway-port "22"                                                                              Specifies SSH port [$SCALEWAY_PORT]
+   --scaleway-region "par1"                                                                          Specifies the location (par1,ams1) [$SCALEWAY_REGION]
    --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
    --scaleway-user "root"                                                                            Specifies SSH user name [$SCALEWAY_USER]
    --scaleway-volumes                                                                                Attach additional volume (e.g., 50G) [$SCALEWAY_VOLUMES]
-   --swarm                                                                                           Configure Machine with Swarm
+   --swarm                                                                                           Configure Machine to join a Swarm cluster
    --swarm-addr                                                                                      addr to advertise for Swarm (default: detect and use the machine IP)
    --swarm-discovery                                                                                 Discovery service to use with Swarm
    --swarm-experimental                                                                              Enable Swarm experimental features
    --swarm-host "tcp://0.0.0.0:3376"                                                                 ip/socket to listen on for Swarm master
    --swarm-image "swarm:latest"                                                                      Specify Docker image to use for Swarm [$MACHINE_SWARM_IMAGE]
+   --swarm-join-opt [--swarm-join-opt option --swarm-join-opt option]                                Define arbitrary flags for Swarm join
    --swarm-master                                                                                    Configure Machine to be a Swarm master
-   --swarm-opt [--swarm-opt option --swarm-opt option]                                               Define arbitrary flags for swarm
+   --swarm-opt [--swarm-opt option --swarm-opt option]                                               Define arbitrary flags for Swarm master
    --swarm-strategy "spread"                                                                         Define a default scheduling strategy for Swarm
    --tls-san [--tls-san option --tls-san option]                                                     Support extra SANs for TLS certs
 ```
@@ -250,6 +253,8 @@ root@ab197ef8bd3c:/# exit
 
 ### master (unreleased)
 
+* Add `--scaleway-region` to start server on different location e.g. `ams1` (Amsterdam)
+* Fix `user-agent` format
 * Add `--scaleway-ipv6` ([#50](https://github.com/scaleway/docker-machine-driver-scaleway/issues/50))
 * Add `--scaleway-port`
 * Add `--scaleway-user`

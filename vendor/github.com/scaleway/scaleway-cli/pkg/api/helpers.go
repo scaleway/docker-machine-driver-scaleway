@@ -41,7 +41,7 @@ type ScalewayImageInterface struct {
 	Type         string
 	Organization string
 	Archs        []string
-	Region       string
+	Region       []string
 }
 
 // ResolveGateway tries to resolve a server public ip address, else returns the input string, i.e. IPv4, hostname
@@ -134,7 +134,10 @@ func fillIdentifierCache(api *ScalewayAPI, identifierType int) {
 
 // GetIdentifier returns a an identifier if the resolved needles only match one element, else, it exists the program
 func GetIdentifier(api *ScalewayAPI, needle string) (*ScalewayResolverResult, error) {
-	idents := ResolveIdentifier(api, needle)
+	idents, err := ResolveIdentifier(api, needle)
+	if err != nil {
+		return nil, err
+	}
 
 	if len(idents) == 1 {
 		return &idents[0], nil
@@ -152,17 +155,19 @@ func GetIdentifier(api *ScalewayAPI, needle string) (*ScalewayResolverResult, er
 }
 
 // ResolveIdentifier resolves needle provided by the user
-func ResolveIdentifier(api *ScalewayAPI, needle string) ScalewayResolverResults {
-	idents := api.Cache.LookUpIdentifiers(needle)
+func ResolveIdentifier(api *ScalewayAPI, needle string) (ScalewayResolverResults, error) {
+	idents, err := api.Cache.LookUpIdentifiers(needle)
+	if err != nil {
+		return idents, err
+	}
 	if len(idents) > 0 {
-		return idents
+		return idents, nil
 	}
 
 	identifierType, _ := parseNeedle(needle)
 	fillIdentifierCache(api, identifierType)
 
-	idents = api.Cache.LookUpIdentifiers(needle)
-	return idents
+	return api.Cache.LookUpIdentifiers(needle)
 }
 
 // ResolveIdentifiers resolves needles provided by the user
@@ -170,7 +175,10 @@ func ResolveIdentifiers(api *ScalewayAPI, needles []string, out chan ScalewayRes
 	// first attempt, only lookup from the cache
 	var unresolved []string
 	for _, needle := range needles {
-		idents := api.Cache.LookUpIdentifiers(needle)
+		idents, err := api.Cache.LookUpIdentifiers(needle)
+		if err != nil {
+			api.Logger.Fatalf("%s", err)
+		}
 		if len(idents) == 0 {
 			unresolved = append(unresolved, needle)
 		} else {
@@ -200,7 +208,10 @@ func ResolveIdentifiers(api *ScalewayAPI, needles []string, out chan ScalewayRes
 
 		// lookup again in the cache
 		for _, needle := range unresolved {
-			idents := api.Cache.LookUpIdentifiers(needle)
+			idents, err := api.Cache.LookUpIdentifiers(needle)
+			if err != nil {
+				api.Logger.Fatalf("%s", err)
+			}
 			out <- ScalewayResolvedIdentifier{
 				Identifiers: idents,
 				Needle:      needle,
@@ -226,6 +237,7 @@ func InspectIdentifiers(api *ScalewayAPI, ci chan ScalewayResolvedIdentifier, cj
 			break
 		}
 		idents.Identifiers = FilterImagesByArch(idents.Identifiers, arch)
+		idents.Identifiers = FilterImagesByRegion(idents.Identifiers, api.Region)
 		if len(idents.Identifiers) != 1 {
 			if len(idents.Identifiers) == 0 {
 				log.Errorf("Unable to resolve identifier %s", idents.Needle)
@@ -272,9 +284,9 @@ type ConfigCreateServer struct {
 	Bootscript        string
 	Env               string
 	AdditionalVolumes string
-	DynamicIPRequired bool
 	IP                string
 	CommercialType    string
+	DynamicIPRequired bool
 	EnableIPV6        bool
 }
 
@@ -324,6 +336,18 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 	if c.Env != "" {
 		server.Tags = strings.Split(c.Env, " ")
 	}
+	switch c.CommercialType {
+	case "VC1M":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "50G"
+			log.Debugf("This server needs a least 50G")
+		}
+	case "VC1L":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "150G"
+			log.Debugf("This server needs a least 150G")
+		}
+	}
 	if c.AdditionalVolumes != "" {
 		volumes := strings.Split(c.AdditionalVolumes, " ")
 		for i := range volumes {
@@ -338,11 +362,14 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 	}
 	arch := os.Getenv("SCW_TARGET_ARCH")
 	if arch == "" {
+		server.CommercialType = strings.ToUpper(server.CommercialType)
 		switch server.CommercialType[:2] {
 		case "C1":
 			arch = "arm"
 		case "C2", "VC":
 			arch = "x86_64"
+		default:
+			return "", fmt.Errorf("%s wrong commercial type", server.CommercialType)
 		}
 	}
 	region := os.Getenv("SCW_TARGET_REGION")
@@ -391,10 +418,19 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 			}
 		}
 	}
+
 	if c.Bootscript != "" {
-		bootscript, errGetBootScript := api.GetBootscriptID(c.Bootscript, imageIdentifier.Arch)
-		if errGetBootScript != nil {
-			return "", errGetBootScript
+		bootscript := ""
+
+		if anonuuid.IsUUID(c.Bootscript) == nil {
+			bootscript = c.Bootscript
+		} else {
+			var errGetBootScript error
+
+			bootscript, errGetBootScript = api.GetBootscriptID(c.Bootscript, imageIdentifier.Arch)
+			if errGetBootScript != nil {
+				return "", errGetBootScript
+			}
 		}
 		server.Bootscript = &bootscript
 	}
@@ -410,6 +446,7 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 			return "", err
 		}
 		currentVolume := createdServer.Volumes["0"]
+		size := uint64(currentVolume.Size.(float64))
 
 		var volumePayload ScalewayVolumePutDefinition
 		newName := fmt.Sprintf("%s-%s", createdServer.Hostname, currentVolume.Name)
@@ -419,7 +456,7 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 		volumePayload.Server.Identifier = &currentVolume.Server.Identifier
 		volumePayload.Server.Name = &currentVolume.Server.Name
 		volumePayload.Identifier = &currentVolume.Identifier
-		volumePayload.Size = &currentVolume.Size
+		volumePayload.Size = &size
 		volumePayload.ModificationDate = &currentVolume.ModificationDate
 		volumePayload.ExportURI = &currentVolume.ExportURI
 		volumePayload.VolumeType = &currentVolume.VolumeType
@@ -459,7 +496,7 @@ func WaitForServerState(api *ScalewayAPI, serverID string, targetState string) (
 }
 
 // WaitForServerReady wait for a server state to be running, then wait for the SSH port to be available
-func WaitForServerReady(api *ScalewayAPI, serverID string, gateway string) (*ScalewayServer, error) {
+func WaitForServerReady(api *ScalewayAPI, serverID, gateway string) (*ScalewayServer, error) {
 	promise := make(chan bool)
 	var server *ScalewayServer
 	var err error
@@ -490,25 +527,48 @@ func WaitForServerReady(api *ScalewayAPI, serverID string, gateway string) (*Sca
 		}
 
 		if gateway == "" {
-			log.Debugf("Waiting for server SSH port")
 			dest := fmt.Sprintf("%s:22", server.PublicAddress.IP)
+			log.Debugf("Waiting for server SSH port %s", dest)
 			err = utils.WaitForTCPPortOpen(dest)
 			if err != nil {
 				promise <- false
 				return
 			}
 		} else {
-			log.Debugf("Waiting for gateway SSH port")
 			dest := fmt.Sprintf("%s:22", gateway)
+			log.Debugf("Waiting for server SSH port %s", dest)
 			err = utils.WaitForTCPPortOpen(dest)
 			if err != nil {
 				promise <- false
 				return
 			}
+			timeout := time.Tick(120 * time.Second)
+			for {
+				select {
+				case <-timeout:
+					err = fmt.Errorf("Timeout: unable to ping %s", server.PrivateIP)
+					fmt.Println("timeout")
+					goto OUT
+				default:
+					if utils.SSHExec("", server.PrivateIP, "root", 22, []string{
+						"nc",
+						"-z",
+						"-w",
+						"1",
+						server.PrivateIP,
+						"22",
+					}, false, gateway) == nil {
+						goto OUT
+					}
+				}
+			}
+		OUT:
+			if err != nil {
+				promise <- false
+				return
+			}
+			log.Debugf("Check for SSH port through the gateway: %s", server.PrivateIP)
 
-			log.Debugf("Waiting 30 more seconds, for SSH to be ready")
-			time.Sleep(30 * time.Second)
-			// FIXME: check for SSH port through the gateway
 		}
 		promise <- true
 	}()
@@ -556,9 +616,7 @@ func StartServer(api *ScalewayAPI, needle string, wait bool) error {
 	}
 
 	if err = api.PostServerAction(server, "poweron"); err != nil {
-		if err.Error() == "server should be stopped" {
-			return fmt.Errorf("server %s is already started: %v", server, err)
-		}
+		return err
 	}
 
 	if wait {
@@ -571,31 +629,29 @@ func StartServer(api *ScalewayAPI, needle string, wait bool) error {
 }
 
 // StartServerOnce wraps StartServer for golang channel
-func StartServerOnce(api *ScalewayAPI, needle string, wait bool, successChan chan bool, errChan chan error) {
+func StartServerOnce(api *ScalewayAPI, needle string, wait bool, successChan chan string, errChan chan error) {
 	err := StartServer(api, needle, wait)
 
 	if err != nil {
 		errChan <- err
 		return
 	}
-
-	fmt.Println(needle)
-	successChan <- true
+	successChan <- needle
 }
 
-// DeleteServerSafe tries to delete a server using multiple ways
-func (a *ScalewayAPI) DeleteServerSafe(serverID string) error {
+// DeleteServerForce tries to delete a server using multiple ways
+func (a *ScalewayAPI) DeleteServerForce(serverID string) error {
 	// FIXME: also delete attached volumes and ip address
 	// FIXME: call delete and stop -t in parallel to speed up process
 	err := a.DeleteServer(serverID)
 	if err == nil {
-		logrus.Infof("Server '%s' successfuly deleted", serverID)
+		logrus.Infof("Server '%s' successfully deleted", serverID)
 		return nil
 	}
 
 	err = a.PostServerAction(serverID, "terminate")
 	if err == nil {
-		logrus.Infof("Server '%s' successfuly terminated", serverID)
+		logrus.Infof("Server '%s' successfully terminated", serverID)
 		return nil
 	}
 
