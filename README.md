@@ -155,6 +155,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 |``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name              |none          |no      |
 |``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type          |VC1S          |no      |
 |``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image             |ubuntu-xenial |no      |
+|``--scaleway-region`` or ``$SCALEWAY_REGION``                   |Specify the location     |par1          |no      |
 |``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging         |false         |no      |
 |``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP                |""            |no      |
 |``--scaleway-volumes`` or ``$SCALEWAY_VOLUMES``                 |Attach additional volume |""            |no      |
