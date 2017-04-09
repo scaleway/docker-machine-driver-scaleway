@@ -358,6 +358,7 @@ func (d *Driver) Remove() (err error) {
 		err = cl.DeleteIP(d.IPID)
 	}
 	if errRemove != nil {
+		err = errRemove
 		return
 	}
 	return
