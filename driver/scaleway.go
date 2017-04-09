@@ -347,10 +347,7 @@ func (d *Driver) Remove() (err error) {
 	if err != nil {
 		return
 	}
-	err = cl.PostServerAction(d.ServerID, "terminate")
-	if err != nil {
-		return
-	}
+	errRemove := cl.PostServerAction(d.ServerID, "terminate")
 	for {
 		_, err = cl.GetServer(d.ServerID)
 		if err != nil {
@@ -359,6 +356,10 @@ func (d *Driver) Remove() (err error) {
 	}
 	if !d.IPPersistant {
 		err = cl.DeleteIP(d.IPID)
+	}
+	if errRemove != nil {
+		err = errRemove
+		return
 	}
 	return
 }
