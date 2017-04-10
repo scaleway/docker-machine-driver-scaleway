@@ -36,7 +36,7 @@ type ScalewayImageInterface struct {
 	Identifier   string
 	Name         string
 	Tag          string
-	VirtualSize  float64
+	VirtualSize  uint64
 	Public       bool
 	Type         string
 	Organization string
@@ -337,15 +337,30 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 		server.Tags = strings.Split(c.Env, " ")
 	}
 	switch c.CommercialType {
-	case "VC1M":
+	case "VC1M", "X64-4GB":
 		if c.AdditionalVolumes == "" {
 			c.AdditionalVolumes = "50G"
 			log.Debugf("This server needs a least 50G")
 		}
-	case "VC1L":
+	case "VC1L", "X64-8GB", "X64-15GB":
 		if c.AdditionalVolumes == "" {
 			c.AdditionalVolumes = "150G"
 			log.Debugf("This server needs a least 150G")
+		}
+	case "X64-30GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "100G 150G"
+			log.Debugf("This server needs a least 300G")
+		}
+	case "X64-60GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "50G 150G 150G"
+			log.Debugf("This server needs a least 400G")
+		}
+	case "X64-120GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "150G 150G 150G"
+			log.Debugf("This server needs a least 500G")
 		}
 	}
 	if c.AdditionalVolumes != "" {
@@ -366,19 +381,14 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 		switch server.CommercialType[:2] {
 		case "C1":
 			arch = "arm"
-		case "C2", "VC":
+		case "C2", "VC", "X6":
 			arch = "x86_64"
 		default:
 			return "", fmt.Errorf("%s wrong commercial type", server.CommercialType)
 		}
 	}
-	region := os.Getenv("SCW_TARGET_REGION")
-	if region == "" {
-		region = "fr-1"
-	}
 	imageIdentifier := &ScalewayImageIdentifier{
-		Arch:   arch,
-		Region: region,
+		Arch: arch,
 	}
 	server.Name = c.Name
 	inheritingVolume := false
@@ -446,7 +456,6 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 			return "", err
 		}
 		currentVolume := createdServer.Volumes["0"]
-		size := uint64(currentVolume.Size.(float64))
 
 		var volumePayload ScalewayVolumePutDefinition
 		newName := fmt.Sprintf("%s-%s", createdServer.Hostname, currentVolume.Name)
@@ -456,7 +465,7 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 		volumePayload.Server.Identifier = &currentVolume.Server.Identifier
 		volumePayload.Server.Name = &currentVolume.Server.Name
 		volumePayload.Identifier = &currentVolume.Identifier
-		volumePayload.Size = &size
+		volumePayload.Size = &currentVolume.Size
 		volumePayload.ModificationDate = &currentVolume.ModificationDate
 		volumePayload.ExportURI = &currentVolume.ExportURI
 		volumePayload.VolumeType = &currentVolume.VolumeType
@@ -542,12 +551,12 @@ func WaitForServerReady(api *ScalewayAPI, serverID, gateway string) (*ScalewaySe
 				promise <- false
 				return
 			}
+			log.Debugf("Check for SSH port through the gateway: %s", server.PrivateIP)
 			timeout := time.Tick(120 * time.Second)
 			for {
 				select {
 				case <-timeout:
 					err = fmt.Errorf("Timeout: unable to ping %s", server.PrivateIP)
-					fmt.Println("timeout")
 					goto OUT
 				default:
 					if utils.SSHExec("", server.PrivateIP, "root", 22, []string{
@@ -557,18 +566,17 @@ func WaitForServerReady(api *ScalewayAPI, serverID, gateway string) (*ScalewaySe
 						"1",
 						server.PrivateIP,
 						"22",
-					}, false, gateway) == nil {
+					}, false, gateway, false) == nil {
 						goto OUT
 					}
+					time.Sleep(2 * time.Second)
 				}
 			}
 		OUT:
 			if err != nil {
-				promise <- false
-				return
+				logrus.Info(err)
+				err = nil
 			}
-			log.Debugf("Check for SSH port through the gateway: %s", server.PrivateIP)
-
 		}
 		promise <- true
 	}()
