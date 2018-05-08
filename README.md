@@ -72,6 +72,7 @@ Options:
    --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
    --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
    --scaleway-image "ubuntu-xenial"                                                                  Specifies the image [$SCALEWAY_IMAGE]
+   --scaleway-bootscript "docker"                                                                    Specifies the bootscript [$SCALEWAY_BOOTSCRIPT]
    --scaleway-ip                                                                                     Specifies the IP address [$SCALEWAY_IP]
    --scaleway-ipv6                                                                                   Enable ipv6 [$SCALEWAY_IPV6]
    --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]

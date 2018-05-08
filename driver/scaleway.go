@@ -41,6 +41,7 @@ type Driver struct {
 	Region         string
 	name           string
 	image          string
+	bootscript     string
 	ip             string
 	volumes        string
 	IPPersistant   bool
@@ -94,6 +95,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 	d.Region = flags.String("scaleway-region")
 	d.name = flags.String("scaleway-name")
 	d.image = flags.String("scaleway-image")
+	d.bootscript = flags.String("scaleway-bootscript")
 	d.ip = flags.String("scaleway-ip")
 	d.volumes = flags.String("scaleway-volumes")
 	d.ipv6 = flags.Bool("scaleway-ipv6")
@@ -144,6 +146,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Name:   "scaleway-image",
 			Usage:  "Specifies the image",
 			Value:  defaultImage,
+		},
+		mcnflag.StringFlag{
+			EnvVar: "SCALEWAY_BOOTSCRIPT",
+			Name:   "scaleway-bootscript",
+			Usage:  "Specifies the bootscript",
+			Value:  defaultBootscript,
 		},
 		mcnflag.StringFlag{
 			EnvVar: "SCALEWAY_IP",
@@ -259,7 +267,7 @@ func (d *Driver) Create() (err error) {
 		ImageName:         d.image,
 		CommercialType:    d.CommercialType,
 		Name:              d.name,
-		Bootscript:        defaultBootscript,
+		Bootscript:        d.bootscript,
 		AdditionalVolumes: d.volumes,
 		IP:                d.IPID,
 		EnableIPV6:        d.ipv6,
