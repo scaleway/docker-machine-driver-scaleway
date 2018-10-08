@@ -69,7 +69,7 @@ Options:
    --engine-opt [--engine-opt option --engine-opt option]                                            Specify arbitrary flags to include with the created engine in the form flag=value
    --engine-registry-mirror [--engine-registry-mirror option --engine-registry-mirror option]        Specify registry mirrors to use [$ENGINE_REGISTRY_MIRROR]
    --engine-storage-driver                                                                           Specify a storage driver to use with the engine
-   --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
+   --scaleway-commercial-type "START1-S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
    --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
    --scaleway-image "ubuntu-xenial"                                                                  Specifies the image [$SCALEWAY_IMAGE]
    --scaleway-bootscript "docker"                                                                    Specifies the bootscript [$SCALEWAY_BOOTSCRIPT]
@@ -154,7 +154,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 |``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID        |none          |yes     |
 |``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID               |none          |yes     |
 |``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name              |none          |no      |
-|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type          |VC1S          |no      |
+|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type          |START1-S      |no      |
 |``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image             |ubuntu-xenial |no      |
 |``--scaleway-region`` or ``$SCALEWAY_REGION``                   |Specify the location     |par1          |no      |
 |``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging         |false         |no      |
@@ -171,28 +171,28 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 # create a Scaleway docker host
 docker-machine create -d scaleway my-scaleway-docker-machine
 
-# create a VC1M server, name it my-docker-machine-1 on Scaleway and my-docker1 in the local Docker machine, with debug enabled
+# create a START1-M server, name it my-docker-machine-1 on Scaleway and my-docker1 in the local Docker machine, with debug enabled
 docker-machine create -d scaleway \
   --scaleway-name="my-docker-machine-1" --scaleway-debug \
-  --scaleway-commercial-type="VC1M" --scaleway-volumes="50G" \
+  --scaleway-commercial-type="START1-M" --scaleway-volumes="50G" \
   my-docker1
 
-# create a swarm master on a VC1M
+# create a swarm master on a START1-M
 docker-machine create -d scaleway \
-  --scaleway-commercial-type="VC1M" --scaleway-volumes="50G" \
+  --scaleway-commercial-type="START1-M" --scaleway-volumes="50G" \
   --swarm --swarm-master --swarm-discovery="XXX"
   my-swarm-manager
 
-# create a swarm slave on a VC1S
+# create a swarm slave on a START1-S
 docker-machine create -d scaleway \
-  --scaleway-commercial-type="VC1S" \
+  --scaleway-commercial-type="START1-S" \
   --swarm --swarm-discovery="XXX"
   my-swarm-node
 
 # create a docker host on the different server offers
-docker-machine create -d scaleway --scaleway-commercial-type="VC1S"                           my-vc1s-node
-docker-machine create -d scaleway --scaleway-commercial-type="VC1M" --scaleway-volumes="50G"  my-vc1m-node
-docker-machine create -d scaleway --scaleway-commercial-type="VC1L" --scaleway-volumes="100G" my-vc1l-node
+docker-machine create -d scaleway --scaleway-commercial-type="START1-S"                           my-start1-s-node
+docker-machine create -d scaleway --scaleway-commercial-type="START1-M" --scaleway-volumes="50G"  my-start1-m-node
+docker-machine create -d scaleway --scaleway-commercial-type="START1-L" --scaleway-volumes="100G" my-start1-l-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2S"                            my-c2s-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2M"                            my-c2m-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2L"                            my-c2l-node
