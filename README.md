@@ -253,6 +253,16 @@ root@ab197ef8bd3c:/# exit
 
 ## Changelog
 
+### v1.4 (2018-10-28)
+
+* Change default bootscript
+* Remove VC product line
+* Allow the bootscript to be specified using it's unique id.
+* Vendor update
+* Remove IP adress if machine didn't exist ([#64](https://github.com/scaleway/docker-machine-driver-scaleway/pull/64))
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.3...v1.4)
+
 ### v1.3 (2016-10-28)
 
 * Add `--scaleway-region` to start server on different location e.g. `ams1` (Amsterdam)
