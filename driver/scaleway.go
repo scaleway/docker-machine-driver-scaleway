@@ -25,7 +25,7 @@ const (
 	// VERSION represents the semver version of the package
 	VERSION           = "v1.3"
 	defaultImage      = "ubuntu-xenial"
-	defaultBootscript = "docker"
+	defaultBootscript = "x86_64 mainline 4.4.127 rev1"
 )
 
 var scwAPI *api.ScalewayAPI
