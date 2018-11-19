@@ -24,8 +24,8 @@ import (
 const (
 	// VERSION represents the semver version of the package
 	VERSION           = "v1.4"
-	defaultImage      = "ubuntu-xenial"
-	defaultBootscript = "x86_64 mainline 4.4.127 rev1"
+	defaultImage      = "265b32a3"
+	defaultBootscript = ""
 )
 
 var scwAPI *api.ScalewayAPI
