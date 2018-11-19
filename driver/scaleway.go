@@ -133,7 +133,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			EnvVar: "SCALEWAY_COMMERCIAL_TYPE",
 			Name:   "scaleway-commercial-type",
 			Usage:  "Specifies the commercial type",
-			Value:  "START1-S",
+			Value:  "VC1S",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "SCALEWAY_REGION",
