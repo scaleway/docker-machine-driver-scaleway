@@ -253,6 +253,14 @@ root@ab197ef8bd3c:/# exit
 
 ## Changelog
 
+### v1.5 (2018-11-19)
+
+* Revert "Remove VC product line"
+* Use xenial image id directly
+* Use default image's bootscript
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.4...v1.5)
+
 ### v1.4 (2018-10-28)
 
 * Change default bootscript

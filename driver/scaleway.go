@@ -23,7 +23,7 @@ import (
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION           = "v1.4"
+	VERSION           = "v1.5"
 	defaultImage      = "265b32a3"
 	defaultBootscript = ""
 )
