@@ -196,6 +196,18 @@ docker-machine create -d scaleway --scaleway-commercial-type="VC1L" --scaleway-v
 docker-machine create -d scaleway --scaleway-commercial-type="C2S"                            my-c2s-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2M"                            my-c2m-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2L"                            my-c2l-node
+
+# remove a machine
+docker-machine rm my-vc1s-node
+About to remove my-vc1s-node
+WARNING: This action will delete both local reference and remote instance.
+Are you sure? (y/n): y
+Successfully removed my-vc1s-node
+
+# force remove a machine
+docker-machine rm -f my-vc1s-node
+About to remove my-vc1s-node
+WARNING: This action will delete both local reference and remote instance.
 ```
 
 More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/master/examples).
