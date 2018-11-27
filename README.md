@@ -343,6 +343,11 @@ $ SCALEWAY_DEBUG=1 MACHINE_DEBUG=1 docker-machine ...
 
 Feel free to contribute :smiley::beers:
 
+## Release
+
+You can easily build for all supported platforms using `build-dmds-packages.sh` script
+located in `./scripts`
+
 ## Links
 
 - **Scaleway console**: https://cloud.scaleway.com/
