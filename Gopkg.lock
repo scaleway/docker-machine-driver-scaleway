@@ -108,7 +108,7 @@
   revision = "2d205ac6ec17a839a94bdbfd16d2fa6c6dada2e0"
 
 [[projects]]
-  digest = "1:200f593aa2c2b0b3b4eb9373ce0e6db0aaa03673af6bc064a8c7dff56fad8c0f"
+  digest = "1:75b34d7ea04aacba6d97fd510d5ecd506cdb5d66d153420f4dd437c35797f09f"
   name = "github.com/scaleway/scaleway-cli"
   packages = [
     "pkg/api",
@@ -119,7 +119,8 @@
     "pkg/utils",
   ]
   pruneopts = "UT"
-  revision = "677d03847f2ad91610f4aee5efaf47954274d879"
+  revision = "4c4502fd13230d91b52d99a6069cffffea536a5e"
+  version = "v1.14"
 
 [[projects]]
   digest = "1:9db148b306bb08f1eb251a6810ea69e945fa855ac26f3f6928deac8925f3c4d0"
