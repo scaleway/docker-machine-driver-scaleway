@@ -265,6 +265,14 @@ root@ab197ef8bd3c:/# exit
 
 ## Changelog
 
+### v1.6 (2018-12-03)
+
+* Migrate from Godeps to dep
+* Upgrade scaleway-cli dependency
+* Add scripts to help release the project
+
+View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.5...v1.6)
+
 ### v1.5 (2018-11-19)
 
 * Revert "Remove VC product line"
