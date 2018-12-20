@@ -33,21 +33,22 @@ var scwAPI *api.ScalewayAPI
 // Driver represents the docker driver interface
 type Driver struct {
 	*drivers.BaseDriver
-	ServerID       string
-	Organization   string
-	IPID           string
-	Token          string
-	CommercialType string
-	Region         string
-	name           string
-	image          string
-	bootscript     string
-	ip             string
-	volumes        string
-	IPPersistant   bool
-	stopping       bool
-	created        bool
-	ipv6           bool
+	ServerID          string
+	Organization      string
+	IPID              string
+	Token             string
+	CommercialType    string
+	Region            string
+	name              string
+	image             string
+	bootscript        string
+	ip                string
+	volumes           string
+	IPPersistant   	  bool
+	DynamicIPRequired bool
+	stopping          bool
+	created           bool
+	ipv6              bool
 	// userDataFile string
 }
 
@@ -196,7 +197,13 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 }
 
 func (d *Driver) resolveIP(cl *api.ScalewayAPI) (err error) {
-	if d.ip != "" {
+	if d.ip == "dynamic" {
+		d.DynamicIPRequired = true
+		d.IPID = ""
+	} else if d.ip == "none" {
+		d.DynamicIPRequired = false
+		d.IPID = ""
+	} else if d.ip != "" {
 		var ips *api.ScalewayGetIPS
 
 		d.IPPersistant = true
@@ -268,6 +275,7 @@ func (d *Driver) Create() (err error) {
 		CommercialType:    d.CommercialType,
 		Name:              d.name,
 		Bootscript:        d.bootscript,
+		DynamicIPRequired: d.DynamicIPRequired,
 		AdditionalVolumes: d.volumes,
 		IP:                d.IPID,
 		EnableIPV6:        d.ipv6,
