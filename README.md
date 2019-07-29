@@ -1,4 +1,4 @@
-<p align="center"><img height="125" src="docs/static_files/scaleway-logo.png" /></p>
+<p align="center"><img height="125" src="docs/static_files/scaleway-logo.png"/></p>
 
 <p align="center">
   <a href="https://travis-ci.org/scaleway/docker-machine-driver-scaleway"><img src="https://travis-ci.org/scaleway/docker-machine-driver-scaleway.svg?branch=master" alt="TravisCI" /></a>
@@ -15,7 +15,7 @@ A 3rd-party driver plugin for Docker machine to manage your containers on Scalew
 
 Install the latest release using [homebrew](https://brew.sh/):
 
-```console
+```bash
 $ brew tap scaleway/scaleway
 $ brew install scaleway/scaleway/docker-machine-driver-scaleway
 
@@ -27,7 +27,7 @@ $ brew install scaleway/scaleway/docker-machine-driver-scaleway --HEAD
 
 Install HEAD version in your `$GOPATH/bin` (depends on `Golang` and `docker-machine`)
 
-```console
+```bash
 $ go get -u github.com/scaleway/docker-machine-driver-scaleway
 ```
 
@@ -35,7 +35,7 @@ $ go get -u github.com/scaleway/docker-machine-driver-scaleway
 
 You can find sources and pre-compiled binaries [here](https://github.com/scaleway/docker-machine-driver-scaleway/releases/latest)
 
-```console
+```bash
 # Download the binary (this example downloads the binary for darwin amd64)
 $ curl -sL https://github.com/scaleway/docker-machine-driver-scaleway/releases/download/v1.6/docker-machine-driver-scaleway_1.6_darwin_amd64.zip -O
 $ unzip docker-machine-driver-scaleway_1.6_darwin_amd64.zip
@@ -49,7 +49,7 @@ $ sudo cp docker-machine-driver-scaleway_1.6_darwin_amd64/docker-machine-driver-
 
 At any time, you can read the driver helper with this command:
 
-```console
+```bash
 $ docker-machine create -d scaleway -h
 ```
 
@@ -57,12 +57,13 @@ $ docker-machine create -d scaleway -h
 
 The Scaleway authentication is based on an **organization ID** and a **secret key** (token).
 You can find both of them in the section "API Tokens" of the [Scaleway Console](https://console.scaleway.com/account/credentials).
+
 Since secret keys are only revealed one time (when it is first created) you might need to create a new one.
 Click on the "Generate new token" button to create them. Giving it a friendly-name is recommended.
 
 You can now set your environment variables:
 
-```console
+```bash
 export SCALEWAY_ORGANIZATION=<your-organization-id> # Node that you can also provide it your the --scaleway-organization flag
 export SCALEWAY_TOKEN=<your-secret-key> # Node that you can also provide it your the --scaleway-token flag
 ```
@@ -117,19 +118,19 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ## Options
 
-|Option Name                                                     |Description              |Default Value |required|
-|----------------------------------------------------------------|-------------------------|--------------|--------|
-|``--scaleway-organization`` or ``$SCALEWAY_ORGANIZATION``       |Organization UUID        |none          |yes     |
-|``--scaleway-token`` or ``$SCALEWAY_TOKEN``                     |Token UUID               |none          |yes     |
-|``--scaleway-name`` or ``$SCALEWAY_NAME``                       |Server name              |none          |no      |
-|``--scaleway-commercial-type`` or ``$SCALEWAY_COMMERCIAL_TYPE`` |Commercial type          |VC1S          |no      |
-|``--scaleway-image`` or ``$SCALEWAY_IMAGE``                     |Server image             |ubuntu-xenial |no      |
-|``--scaleway-region`` or ``$SCALEWAY_REGION``                   |Specify the location     |par1          |no      |
-|``--scaleway-debug`` or ``$SCALEWAY_DEBUG``                     |Toggle debugging         |false         |no      |
-|``--scaleway-ip`` or ``$SCALEWAY_IP``                           |Server IP                |""            |no      |
-|``--scaleway-volumes`` or ``$SCALEWAY_VOLUMES``                 |Attach additional volume |""            |no      |
-|``--scaleway-user`` or ``$SCALEWAY_USER``                       |SSH User                 |root          |no      |
-|``--scaleway-port`` or ``$SCALEWAY_PORT``                       |SSH port                 |22            |no      |
+|Flag or environment variable                               |Description              |Default Value |required|
+|-----------------------------------------------------------|-------------------------|--------------|--------|
+|`--scaleway-organization` or `SCALEWAY_ORGANIZATION`       |Organization UUID        |none          |yes     |
+|`--scaleway-token` or `SCALEWAY_TOKEN`                     |Token UUID               |none          |yes     |
+|`--scaleway-name` or `SCALEWAY_NAME`                       |Server name              |none          |no      |
+|`--scaleway-commercial-type` or `SCALEWAY_COMMERCIAL_TYPE` |Commercial type          |VC1S          |no      |
+|`--scaleway-image` or `SCALEWAY_IMAGE`                     |Server image             |ubuntu-xenial |no      |
+|`--scaleway-region` or `SCALEWAY_REGION`                   |Specify the location     |par1          |no      |
+|`--scaleway-debug` or `SCALEWAY_DEBUG`                     |Toggle debugging         |false         |no      |
+|`--scaleway-ip` or `SCALEWAY_IP`                           |Server IP                |""            |no      |
+|`--scaleway-volumes` or `SCALEWAY_VOLUMES`                 |Attach additional volume |""            |no      |
+|`--scaleway-user` or `SCALEWAY_USER`                       |SSH User                 |root          |no      |
+|`--scaleway-port` or `SCALEWAY_PORT`                       |SSH port                 |22            |no      |
 
 ---
 
