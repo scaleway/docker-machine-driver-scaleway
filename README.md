@@ -33,14 +33,18 @@ $ go get -u github.com/scaleway/docker-machine-driver-scaleway
 
 ### Binary
 
-You can find sources and pre-compiled binaries [here](https://github.com/scaleway/docker-machine-driver-scaleway/releases/latest)
+You can find sources and pre-compiled binaries [here](https://github.com/scaleway/docker-machine-driver-scaleway/releases/latest).
+
+Download the binary (this example downloads the binary for `darwin amd64`)
 
 ```bash
-# Download the binary (this example downloads the binary for darwin amd64)
 $ curl -sL https://github.com/scaleway/docker-machine-driver-scaleway/releases/download/v1.6/docker-machine-driver-scaleway_1.6_darwin_amd64.zip -O
 $ unzip docker-machine-driver-scaleway_1.6_darwin_amd64.zip
+```
 
-# Make it executable and copy the binary in a directory accessible with your $PATH
+Make the binary executable and copy it in a directory accessible with your `$PATH`:
+
+```bash
 $ chmod +x docker-machine-driver-scaleway_1.6_darwin_amd64/docker-machine-driver-scaleway
 $ sudo cp docker-machine-driver-scaleway_1.6_darwin_amd64/docker-machine-driver-scaleway /usr/local/bin/
 ```
