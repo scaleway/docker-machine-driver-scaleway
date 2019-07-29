@@ -1,31 +1,33 @@
+<p align="center"><img height="125" src="docs/static_files/scaleway-logo.png" /></p>
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/scaleway/docker-machine-driver-scaleway/master/misc/logo_readme.png" width="800"/>
+  <a href="https://travis-ci.org/scaleway/docker-machine-driver-scaleway"><img src="https://travis-ci.org/scaleway/docker-machine-driver-scaleway.svg?branch=master" alt="TravisCI" /></a>
+  <a href="https://goreportcard.com/report/github.com/scalewaydocker-machine-driver-scaleway"><img src="https://goreportcard.com/badge/scaleway/docker-machine-driver-scaleway" alt="GoReportCard" /></a>
 </p>
 
-## Overview
+# Scaleway Docker Machine Driver
 
-[![Build
-Status](https://travis-ci.org/scaleway/docker-machine-driver-scaleway.svg?branch=master)](https://travis-ci.org/scaleway/docker-machine-driver-scaleway)
+A 3rd-party driver plugin for Docker machine to manage your containers on Scaleway servers.
 
-A 3rd-party driver plugin for Docker machine to manage your containers on the servers of Scaleway
-
-## Setup
+## Install
 
 ### Homebrew
 
-```shell
-# install latest release of docker-machine-driver-scaleway and docker-machine using homebrew
+Install the latest release using [homebrew](https://brew.sh/):
+
+```console
 $ brew tap scaleway/scaleway
 $ brew install scaleway/scaleway/docker-machine-driver-scaleway
 
-# install latest (git) version of docker-machine-driver-scaleway
-$ brew tap scaleway/scaleway
-$ brew install scaleway/scaleway/docker-machine-driver-scaleway --HEAD
+# To install the HEAD version of this repository
+$ brew install scaleway/scaleway/docker-machine-driver-scaleway --HEAD 
 ```
 
 ### Go
-```shell
-# install latest (git) version of docker-machine-driver-scaleway in your $GOPATH/bin (depends on Golang and docker-machine)
+
+Install HEAD version in your `$GOPATH/bin` (depends on `Golang` and `docker-machine`)
+
+```console
 $ go get -u github.com/scaleway/docker-machine-driver-scaleway
 ```
 
@@ -33,76 +35,42 @@ $ go get -u github.com/scaleway/docker-machine-driver-scaleway
 
 You can find sources and pre-compiled binaries [here](https://github.com/scaleway/docker-machine-driver-scaleway/releases/latest)
 
-```shell
+```console
 # Download the binary (this example downloads the binary for darwin amd64)
-$ curl -sL https://github.com/scaleway/docker-machine-driver-scaleway/releases/download/v1.2.1/docker-machine-driver-scaleway_1.2.1_darwin_amd64.zip -O
-$ unzip docker-machine-driver-scaleway_1.2.1_darwin_amd64.zip
+$ curl -sL https://github.com/scaleway/docker-machine-driver-scaleway/releases/download/v1.6/docker-machine-driver-scaleway_1.6_darwin_amd64.zip -O
+$ unzip docker-machine-driver-scaleway_1.6_darwin_amd64.zip
 
 # Make it executable and copy the binary in a directory accessible with your $PATH
-$ chmod +x docker-machine-driver-scaleway_1.2.1_darwin_amd64/docker-machine-driver-scaleway
-$ sudo cp docker-machine-driver-scaleway_1.2.1_darwin_amd64/docker-machine-driver-scaleway /usr/local/bin/
+$ chmod +x docker-machine-driver-scaleway_1.6_darwin_amd64/docker-machine-driver-scaleway
+$ sudo cp docker-machine-driver-scaleway_1.6_darwin_amd64/docker-machine-driver-scaleway /usr/local/bin/
 ```
 
 ## Usage
 
-### 1. Get your Scaleway credentials
+At any time, you can read the driver helper with this command:
 
-You can find your `ACCESS KEY` and generate your `TOKEN` [here](https://cloud.scaleway.com/#/credentials)
-
-### 2. Scaleway driver helper
 ```console
 $ docker-machine create -d scaleway -h
-Usage: docker-machine create [OPTIONS] [arg...]
-
-Create a machine
-
-Description:
-   Run 'docker-machine create --driver name' to include the create flags for that driver in the help text.
-
-Options:
-
-   --driver, -d "none"                                                                               Driver to create machine with. [$MACHINE_DRIVER]
-   --engine-env [--engine-env option --engine-env option]                                            Specify environment variables to set in the engine
-   --engine-insecure-registry [--engine-insecure-registry option --engine-insecure-registry option]  Specify insecure registries to allow with the created engine
-   --engine-install-url "https://get.docker.com"                                                     Custom URL to use for engine installation [$MACHINE_DOCKER_INSTALL_URL]
-   --engine-label [--engine-label option --engine-label option]                                      Specify labels for the created engine
-   --engine-opt [--engine-opt option --engine-opt option]                                            Specify arbitrary flags to include with the created engine in the form flag=value
-   --engine-registry-mirror [--engine-registry-mirror option --engine-registry-mirror option]        Specify registry mirrors to use [$ENGINE_REGISTRY_MIRROR]
-   --engine-storage-driver                                                                           Specify a storage driver to use with the engine
-   --scaleway-commercial-type "VC1S"                                                                 Specifies the commercial type [$SCALEWAY_COMMERCIAL_TYPE]
-   --scaleway-debug                                                                                  Enables Scaleway client debugging [$SCALEWAY_DEBUG]
-   --scaleway-image "ubuntu-xenial"                                                                  Specifies the image [$SCALEWAY_IMAGE]
-   --scaleway-bootscript "docker"                                                                    Specifies the bootscript [$SCALEWAY_BOOTSCRIPT]
-   --scaleway-ip                                                                                     Specifies the IP address [$SCALEWAY_IP]
-   --scaleway-ipv6                                                                                   Enable ipv6 [$SCALEWAY_IPV6]
-   --scaleway-name                                                                                   Assign a name [$SCALEWAY_NAME]
-   --scaleway-organization                                                                           Scaleway organization [$SCALEWAY_ORGANIZATION]
-   --scaleway-port "22"                                                                              Specifies SSH port [$SCALEWAY_PORT]
-   --scaleway-region "par1"                                                                          Specifies the location (par1,ams1) [$SCALEWAY_REGION]
-   --scaleway-token                                                                                  Scaleway token [$SCALEWAY_TOKEN]
-   --scaleway-user "root"                                                                            Specifies SSH user name [$SCALEWAY_USER]
-   --scaleway-volumes                                                                                Attach additional volume (e.g., 50G) [$SCALEWAY_VOLUMES]
-   --swarm                                                                                           Configure Machine to join a Swarm cluster
-   --swarm-addr                                                                                      addr to advertise for Swarm (default: detect and use the machine IP)
-   --swarm-discovery                                                                                 Discovery service to use with Swarm
-   --swarm-experimental                                                                              Enable Swarm experimental features
-   --swarm-host "tcp://0.0.0.0:3376"                                                                 ip/socket to listen on for Swarm master
-   --swarm-image "swarm:latest"                                                                      Specify Docker image to use for Swarm [$MACHINE_SWARM_IMAGE]
-   --swarm-join-opt [--swarm-join-opt option --swarm-join-opt option]                                Define arbitrary flags for Swarm join
-   --swarm-master                                                                                    Configure Machine to be a Swarm master
-   --swarm-opt [--swarm-opt option --swarm-opt option]                                               Define arbitrary flags for Swarm master
-   --swarm-strategy "spread"                                                                         Define a default scheduling strategy for Swarm
-   --tls-san [--tls-san option --tls-san option]                                                     Support extra SANs for TLS certs
 ```
 
-### 3. Create your machine
+### 1. Get your Scaleway credentials
 
-You need to configure your `ACCESS_KEY` and `TOKEN`, we suggest you to install [scw](https://github.com/scaleway/scaleway-cli) and create a credential file using `scw login`.
+The Scaleway authentication is based on an **organization ID** and a **secret key** (token).
+You can find both of them in the section "API Tokens" of the [Scaleway Console](https://console.scaleway.com/account/credentials).
+Since secret keys are only revealed one time (when it is first created) you might need to create a new one.
+Click on the "Generate new token" button to create them. Giving it a friendly-name is recommended.
 
-In the following example, authentication is done without any other dependencies using the `--scaleway-token=TOKEN` and `--scaleway-organization=ACCESS_KEY` parameters.
+You can now set your environment variables:
 
 ```console
-$ docker-machine create -d scaleway --scaleway-token=TOKEN --scaleway-organization=ORGANIZATION_ID --scaleway-name="cloud-scaleway-1" cloud-scaleway
+export SCALEWAY_ORGANIZATION=<your-organization-id> # Node that you can also provide it your the --scaleway-organization flag
+export SCALEWAY_TOKEN=<your-secret-key> # Node that you can also provide it your the --scaleway-token flag
+```
+
+### 2. Create your machine
+
+```console
+$ docker-machine create -d scaleway --scaleway-name="scw-machine" cloud-scaleway
 Running pre-create checks...
 Creating machine...
 (cloud-scaleway) Creating SSH key...
@@ -167,7 +135,7 @@ $ curl --silent http://212.47.248.251 | head -n1 # you can also open your browse
 
 ## Examples
 
-```bash
+```console
 # create a Scaleway docker host
 docker-machine create -d scaleway my-scaleway-docker-machine
 
