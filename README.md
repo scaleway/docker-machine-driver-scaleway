@@ -121,21 +121,21 @@ $ curl --silent http://51.158.119.9 | head -n1   # you can also open your browse
 
 ## Options
 
-|Flag or environment variable                                |Description               |Default Value |required|
-|------------------------------------------------------------|--------------------------|--------------|--------|
-|`--scaleway-organization` or `$SCALEWAY_ORGANIZATION`       |Scaleway organization ID  |none          |yes     |
-|`--scaleway-token` or `$SCALEWAY_TOKEN`                     |Scaleway secret key       |none          |yes     |
-|`--scaleway-bootscript` or `$SCALEWAY_BOOTSCRIPT`           |Bootscript |none          |no            |no      |
-|`--scaleway-commercial-type` or `$SCALEWAY_COMMERCIAL_TYPE` |Commercial type           |`VC1S`        |no      |
-|`--scaleway-debug` or `$SCALEWAY_DEBUG`                     |Enables debug logs        |false         |no      |
-|`--scaleway-image` or `$SCALEWAY_IMAGE`                     |Server image              |ubuntu-xenial |no      |
-|`--scaleway-ip` or `$SCALEWAY_IP`                           |Server IP                 |""            |no      |
-|`--scaleway-ipv6` or `$SCALEWAY_IP`                         |Enable IPv6               |""            |no      |
-|`--scaleway-name` or `$SCALEWAY_NAME`                       |Server name               |none          |no      |
-|`--scaleway-port` or `$SCALEWAY_PORT`                       |SSH port                  |`22`          |no      |
-|`--scaleway-region` or `$SCALEWAY_REGION`                   |Specify the location      |`par1`        |no      |
-|`--scaleway-user` or `$SCALEWAY_USER`                       |SSH User                  |`root`        |no      |
-|`--scaleway-volumes` or `$SCALEWAY_VOLUMES`                 |Attach additional volumes |""            |no      |
+|Flag or environment variable                                |Description               |Default Value   |required|
+|------------------------------------------------------------|--------------------------|----------------|--------|
+|`--scaleway-organization` or `$SCALEWAY_ORGANIZATION`       |Scaleway organization ID  |none            |yes     |
+|`--scaleway-token` or `$SCALEWAY_TOKEN`                     |Scaleway secret key       |none            |yes     |
+|`--scaleway-bootscript` or `$SCALEWAY_BOOTSCRIPT`           |Bootscript |none          |no              |no      |
+|`--scaleway-commercial-type` or `$SCALEWAY_COMMERCIAL_TYPE` |Commercial type           |`VC1S`          |no      |
+|`--scaleway-debug` or `$SCALEWAY_DEBUG`                     |Enables debug logs        |`false`         |no      |
+|`--scaleway-image` or `$SCALEWAY_IMAGE`                     |Server image              |`ubuntu-xenial` |no      |
+|`--scaleway-ip` or `$SCALEWAY_IP`                           |Server IP                 |""              |no      |
+|`--scaleway-ipv6` or `$SCALEWAY_IP`                         |Enable IPv6               |""              |no      |
+|`--scaleway-name` or `$SCALEWAY_NAME`                       |Server name               |none            |no      |
+|`--scaleway-port` or `$SCALEWAY_PORT`                       |SSH port                  |`22`            |no      |
+|`--scaleway-region` or `$SCALEWAY_REGION`                   |Specify the location      |`par1`          |no      |
+|`--scaleway-user` or `$SCALEWAY_USER`                       |SSH User                  |`root`          |no      |
+|`--scaleway-volumes` or `$SCALEWAY_VOLUMES`                 |Attach additional volumes |""              |no      |
 
 ---
 
