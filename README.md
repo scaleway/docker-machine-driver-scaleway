@@ -85,7 +85,7 @@ Waiting for machine to be running, this may take a few minutes...
 Detecting operating system of created instance...
 Waiting for SSH to be available...
 Detecting the provisioner...
-Provisioning with ubuntu(upstart)...
+Provisioning with ubuntu(systemd)...
 Installing Docker...
 Copying certs to the local machine directory...
 Copying certs to the remote machine...
@@ -95,17 +95,14 @@ Docker is up and running!
 To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env cloud-scaleway
 ```
 
-Note that you can store these parameters in the environment variables `SCALEWAY_TOKEN` and `SCALEWAY_ORGANIZATION`.
-
 ### 4. Test your machine
 
 ```console
 $ eval $(docker-machine env cloud-scaleway)      # loads environment variables to use your machine
 
 $ docker-machine ls                              # cloud-scaleway is now activated
-NAME             ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
-cloud-scaleway   *        scaleway     Running   tcp://212.47.248.251:2376           v1.10.3
-dev              -        virtualbox   Running   tcp://192.168.99.100:2376           v1.9.1
+NAME             ACTIVE   DRIVER           STATE     URL                       SWARM   DOCKER     ERRORS
+cloud-scaleway   *        scaleway(VC1S)   Running   tcp://51.158.119.9:2376           v19.03.1
 
 $ docker run -d -p 80:80 owncloud:8.1            # starts a owncloud image
 Unable to find image 'owncloud:8.1' locally
@@ -114,27 +111,31 @@ Unable to find image 'owncloud:8.1' locally
 
 $ docker ps                                      # displays your containers
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
-ebdd86fcd18b        owncloud:8.1        "/entrypoint.sh apach"   22 seconds ago      Up 20 seconds       0.0.0.0:80->80/tcp   elegant_shirley
+a21475c67b10        owncloud:8.1        "/entrypoint.sh apac…"   8 seconds ago       Up 6 seconds        0.0.0.0:80->80/tcp   gallant_solomon
 
-$ curl --silent http://212.47.248.251 | head -n1 # you can also open your browser with your IP
+$ docker-machine ip cloud-scaleway               # get you machine public IP
+
+$ curl --silent http://51.158.119.9 | head -n1   # you can also open your browser with your IP
 <!DOCTYPE html>
 ```
 
 ## Options
 
-|Flag or environment variable                               |Description              |Default Value |required|
-|-----------------------------------------------------------|-------------------------|--------------|--------|
-|`--scaleway-organization` or `SCALEWAY_ORGANIZATION`       |Organization UUID        |none          |yes     |
-|`--scaleway-token` or `SCALEWAY_TOKEN`                     |Token UUID               |none          |yes     |
-|`--scaleway-name` or `SCALEWAY_NAME`                       |Server name              |none          |no      |
-|`--scaleway-commercial-type` or `SCALEWAY_COMMERCIAL_TYPE` |Commercial type          |VC1S          |no      |
-|`--scaleway-image` or `SCALEWAY_IMAGE`                     |Server image             |ubuntu-xenial |no      |
-|`--scaleway-region` or `SCALEWAY_REGION`                   |Specify the location     |par1          |no      |
-|`--scaleway-debug` or `SCALEWAY_DEBUG`                     |Toggle debugging         |false         |no      |
-|`--scaleway-ip` or `SCALEWAY_IP`                           |Server IP                |""            |no      |
-|`--scaleway-volumes` or `SCALEWAY_VOLUMES`                 |Attach additional volume |""            |no      |
-|`--scaleway-user` or `SCALEWAY_USER`                       |SSH User                 |root          |no      |
-|`--scaleway-port` or `SCALEWAY_PORT`                       |SSH port                 |22            |no      |
+|Flag or environment variable                                |Description               |Default Value |required|
+|------------------------------------------------------------|--------------------------|--------------|--------|
+|`--scaleway-organization` or `$SCALEWAY_ORGANIZATION`       |Scaleway organization ID  |none          |yes     |
+|`--scaleway-token` or `$SCALEWAY_TOKEN`                     |Scaleway secret key       |none          |yes     |
+|`--scaleway-bootscript` or `$SCALEWAY_BOOTSCRIPT`           |Bootscript |none          |no            |no      |
+|`--scaleway-commercial-type` or `$SCALEWAY_COMMERCIAL_TYPE` |Commercial type           |`VC1S`        |no      |
+|`--scaleway-debug` or `$SCALEWAY_DEBUG`                     |Enables debug logs        |false         |no      |
+|`--scaleway-image` or `$SCALEWAY_IMAGE`                     |Server image              |ubuntu-xenial |no      |
+|`--scaleway-ip` or `$SCALEWAY_IP`                           |Server IP                 |""            |no      |
+|`--scaleway-ipv6` or `$SCALEWAY_IP`                         |Enable IPv6               |""            |no      |
+|`--scaleway-name` or `$SCALEWAY_NAME`                       |Server name               |none          |no      |
+|`--scaleway-port` or `$SCALEWAY_PORT`                       |SSH port                  |`22`          |no      |
+|`--scaleway-region` or `$SCALEWAY_REGION`                   |Specify the location      |`par1`        |no      |
+|`--scaleway-user` or `$SCALEWAY_USER`                       |SSH User                  |`root`        |no      |
+|`--scaleway-volumes` or `$SCALEWAY_VOLUMES`                 |Attach additional volumes |""            |no      |
 
 ---
 
