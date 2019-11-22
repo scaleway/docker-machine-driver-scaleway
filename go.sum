@@ -19,6 +19,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/scaleway/scaleway-sdk-go v1.0.0-beta.3.0.20191017131225-281dd2237f29 h1:HLJ+PeoSZtHfcuZ/7KIYSOgCO0EhqWTm5npGTwly9sU=
 github.com/scaleway/scaleway-sdk-go v1.0.0-beta.3.0.20191017131225-281dd2237f29/go.mod h1:CJJ5VAbozOl0yEw7nHB9+7BXTJbIn6h7W+f6Gau5IP8=
+github.com/scaleway/scaleway-sdk-go v1.0.0-beta.4.0.20191121082055-f49f929ddc43 h1:qax4UKdM2lRxn7wUXUZXxHYrYPD0HkGZJUjwySbVhoM=
+github.com/scaleway/scaleway-sdk-go v1.0.0-beta.4.0.20191121082055-f49f929ddc43/go.mod h1:CJJ5VAbozOl0yEw7nHB9+7BXTJbIn6h7W+f6Gau5IP8=
 github.com/sirupsen/logrus v1.4.2 h1:SPIRibHv4MatM3XXNO2BJeFLZwZ2LvZgfQ5+UNI2im4=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

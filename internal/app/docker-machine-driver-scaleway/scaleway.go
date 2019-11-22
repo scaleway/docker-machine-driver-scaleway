@@ -178,6 +178,11 @@ func (d *Driver) PreCreateCheck() error {
 	return nil
 }
 
+// TODO: Reomve local host if error
+// When their is an error from during the remote host creation
+// the local host is neverless created. I can't find any specific
+// handeling for this case in other drivers.
+
 // Create configures and starts a scaleway server
 func (d *Driver) Create() error {
 	log.Info("Generating SSH Key")
@@ -194,8 +199,11 @@ func (d *Driver) Create() error {
 	}
 
 	err = instanceUtils.CreateServer()
+	if err != nil {
+		return fmt.Errorf("cannot create the host: %s", err)
+	}
 
-	return fmt.Errorf("cannot create the host: %s", err)
+	return nil
 }
 
 // GetSSHHostname returns the IP of the server

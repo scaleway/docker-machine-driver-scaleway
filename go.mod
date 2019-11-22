@@ -8,7 +8,7 @@ require (
 	github.com/docker/machine v0.16.2
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
-	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.3.0.20191017131225-281dd2237f29
+	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.4.0.20191121082055-f49f929ddc43
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	github.com/stretchr/testify v1.4.0 // indirect
 	golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7 // indirect

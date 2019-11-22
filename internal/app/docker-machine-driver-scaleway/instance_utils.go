@@ -4,9 +4,11 @@ import (
 	"fmt"
 
 	"github.com/docker/machine/libmachine/log"
+	"github.com/docker/machine/version"
 	"github.com/scaleway/scaleway-sdk-go/api/instance/v1"
 	"github.com/scaleway/scaleway-sdk-go/namegenerator"
 	"github.com/scaleway/scaleway-sdk-go/scw"
+	"github.com/scaleway/scaleway-sdk-go/validation"
 )
 
 type InstanceUtils struct {
@@ -21,6 +23,12 @@ func NewInstanceUtils(d *Driver) (*InstanceUtils, error) {
 		driver: d,
 	}
 
+	log.Debug("Try to migrate config")
+	_, err := scw.MigrateLegacyConfig()
+	if err != nil {
+		return nil, fmt.Errorf("cannot migrate configuration: %s", err)
+	}
+
 	log.Debug("Creating Scaleway client")
 	config, err := scw.LoadConfig()
 	if err != nil {
@@ -32,7 +40,11 @@ func NewInstanceUtils(d *Driver) (*InstanceUtils, error) {
 		return nil, fmt.Errorf("cannot get SDK config active profile: %s", err)
 	}
 
-	clientOptions := []scw.ClientOption{scw.WithEnv(), scw.WithProfile(profile)}
+	clientOptions := []scw.ClientOption{
+		scw.WithEnv(),
+		scw.WithProfile(profile),
+		scw.WithUserAgent(fmt.Sprintf("docker-machine/%s", version.Version)),
+	}
 
 	if d.Zone != "" {
 		clientOptions = append(clientOptions, scw.WithDefaultZone(d.Zone))
@@ -77,9 +89,12 @@ func (i *InstanceUtils) CreateServer() error {
 		name = namegenerator.GetRandomName("docker-machine")
 	}
 
+	// IP address handling.
 	ipAddress := i.driver.IPAddress
 	dynamicIPRequired := i.driver.IPAddress != ""
-	if !dynamicIPRequired && isUUID(ipAddress) {
+
+	// FIXME: Remove this check and let the API handle the error?
+	if !dynamicIPRequired && validation.IsUUID(ipAddress) {
 		ID, err := i.getIPIDFromAddress(ipAddress)
 		if err != nil {
 			return err
@@ -87,22 +102,34 @@ func (i *InstanceUtils) CreateServer() error {
 		ipAddress = ID
 	}
 
-	res, err := i.instanceAPI.CreateServer(&instance.CreateServerRequest{
+	req := &instance.CreateServerRequest{
 		Zone:              i.driver.Zone,
 		Name:              name,
 		DynamicIPRequired: scw.BoolPtr(dynamicIPRequired),
 		CommercialType:    i.driver.Type,
 		Image:             i.driver.Image,
 		EnableIPv6:        i.driver.EnableIPV6,
-		PublicIP:          ipAddress,
 		Organization:      i.driver.OrganizationID,
 		Tags:              i.driver.Tags,
-		SecurityGroup:     i.driver.SecurityGroupID,
-		ComputeCluster:    i.driver.PlacementGroupID,
-	})
+	}
+	if ipAddress != "" {
+		req.PublicIP = scw.StringPtr(ipAddress)
+	}
+	if i.driver.SecurityGroupID != "" {
+		req.SecurityGroup = scw.StringPtr(i.driver.SecurityGroupID)
+	}
+	if i.driver.PlacementGroupID != "" {
+		req.PlacementGroup = scw.StringPtr(i.driver.PlacementGroupID)
+	}
+
+	res, err := i.instanceAPI.CreateServer(req)
+	if err != nil {
+		return err
+	}
+
 	i.serverID = res.Server.ID
 
-	return fmt.Errorf("cannot create the server: %s", err)
+	return nil
 }
 
 func (i *InstanceUtils) GetCreatedServer() (*instance.Server, error) {
