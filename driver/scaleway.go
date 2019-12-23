@@ -9,16 +9,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/docker/machine/libmachine/drivers"
 	"github.com/docker/machine/libmachine/log"
 	"github.com/docker/machine/libmachine/mcnflag"
 	"github.com/docker/machine/libmachine/ssh"
 	"github.com/docker/machine/libmachine/state"
-	"github.com/moul/anonuuid"
 	"github.com/scaleway/scaleway-cli/pkg/api"
 	"github.com/scaleway/scaleway-cli/pkg/clilogger"
 	"github.com/scaleway/scaleway-cli/pkg/config"
+	"github.com/sirupsen/logrus"
+	"moul.io/anonuuid"
 )
 
 const (
@@ -79,7 +79,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 
 	d.Token, d.Organization = flags.String("scaleway-token"), flags.String("scaleway-organization")
 	if d.Token == "" || d.Organization == "" {
-		config, cfgErr := config.GetConfig()
+		config, cfgErr := config.GetConfig("")
 		if cfgErr == nil {
 			if d.Token == "" {
 				d.Token = config.Token
