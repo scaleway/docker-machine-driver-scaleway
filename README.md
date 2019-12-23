@@ -68,13 +68,13 @@ Click on the "Generate new token" button to create them. Giving it a friendly-na
 You can now set your environment variables:
 
 ```bash
-export SCALEWAY_ORGANIZATION=<your-organization-id> # Node that you can also provide it your the --scaleway-organization flag
-export SCALEWAY_TOKEN=<your-secret-key> # Node that you can also provide it your the --scaleway-token flag
+export SCALEWAY_ORGANIZATION=<your-organization-id> # Note that you can also provide it with the --scaleway-organization flag
+export SCALEWAY_TOKEN=<your-secret-key> # Note that you can also provide it with the --scaleway-token flag
 ```
 
 ### 2. Create your machine
 
-```console
+```bash
 $ docker-machine create -d scaleway --scaleway-name="scw-machine" cloud-scaleway
 Running pre-create checks...
 Creating machine...
@@ -97,7 +97,7 @@ To see how to connect your Docker Client to the Docker Engine running on this vi
 
 ### 4. Test your machine
 
-```console
+```bash
 $ eval $(docker-machine env cloud-scaleway)      # loads environment variables to use your machine
 
 $ docker-machine ls                              # cloud-scaleway is now activated
@@ -141,31 +141,31 @@ $ curl --silent http://51.158.119.9 | head -n1   # you can also open your browse
 
 ## Examples
 
-```console
+```bash
 # create a Scaleway docker host
 docker-machine create -d scaleway my-scaleway-docker-machine
 
-# create a VC1M server, name it my-docker-machine-1 on Scaleway and my-docker1 in the local Docker machine, with debug enabled
+# create a DEV1-S server, name it my-docker-machine-1 on Scaleway and my-docker1 in the local Docker machine, with debug enabled
 docker-machine create -d scaleway \
-  --scaleway-name="my-docker-machine-1" --scaleway-debug \
-  --scaleway-commercial-type="VC1M" --scaleway-volumes="50G" \
+  --scaleway-name="my-docker-machine-1" --scaleway-commercial-type="DEV1-S" \
+  --scaleway-debug \
   my-docker1
 
-# create a swarm master on a VC1M
+# create a swarm master on a DEV1-S
 docker-machine create -d scaleway \
-  --scaleway-commercial-type="VC1M" --scaleway-volumes="50G" \
+  --scaleway-commercial-type="DEV1-S" \
   --swarm --swarm-master --swarm-discovery="XXX"
   my-swarm-manager
 
-# create a swarm slave on a VC1S
+# create a swarm slave on a DEV1-S
 docker-machine create -d scaleway \
-  --scaleway-commercial-type="VC1S" \
+  --scaleway-commercial-type="DEV1-S" \
   --swarm --swarm-discovery="XXX"
   my-swarm-node
 
 # create a docker host on the different server offers
-docker-machine create -d scaleway --scaleway-commercial-type="VC1S"                           my-vc1s-node
-docker-machine create -d scaleway --scaleway-commercial-type="VC1M" --scaleway-volumes="50G"  my-vc1m-node
+docker-machine create -d scaleway --scaleway-commercial-type="DEV1-S"                         my-dev1-s-node
+docker-machine create -d scaleway --scaleway-commercial-type="DEV1-M" --scaleway-volumes="50G"  my-vc1m-node
 docker-machine create -d scaleway --scaleway-commercial-type="VC1L" --scaleway-volumes="100G" my-vc1l-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2S"                            my-c2s-node
 docker-machine create -d scaleway --scaleway-commercial-type="C2M"                            my-c2m-node
@@ -192,7 +192,7 @@ More [examples](https://github.com/scaleway/docker-machine-driver-scaleway/tree/
 
 To launch an ARM server, you need to start a server with our Docker Image, and use an empty install script.
 
-```console
+```bash
 $ curl -sL http://bit.ly/1sf3j8V
 #!/bin/sh
 
