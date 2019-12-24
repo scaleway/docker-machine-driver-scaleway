@@ -3,13 +3,14 @@ module github.com/scaleway/docker-machine-driver-scaleway
 replace (
 	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.4.2
 	github.com/docker/docker => github.com/docker/engine v1.4.2-0.20190822205725-ed20165a37b4
+	github.com/docker/machine => /Users/qbrosse/go/src/github.com/docker/machine
 	github.com/renstrom/fuzzysearch v1.1.0 => github.com/lithammer/fuzzysearch v1.1.0
+// github.com/docker/machine => github.com/quentinbrosse/machine v0.7.1-0.20191224095347-2e18b6f9f2db
 )
 
 go 1.11
 
 require (
-	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
 	github.com/creack/goselect v0.1.1 // indirect
 	github.com/docker/docker v1.13.2-0.20170601211448-f5ec1e2936dc // indirect
 	github.com/docker/machine v0.16.2
@@ -27,7 +28,7 @@ require (
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	golang.org/x/crypto v0.0.0-20191219195013-becbf705a915 // indirect
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
-	golang.org/x/sys v0.0.0-20191220220014-0732a990476f // indirect
+	golang.org/x/sys v0.0.0-20191224085550-c709ea063b76 // indirect
 	gotest.tools v2.2.0+incompatible // indirect
 	moul.io/anonuuid v1.2.1
 )

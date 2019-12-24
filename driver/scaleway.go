@@ -3,6 +3,7 @@ package scaleway
 import (
 	"errors"
 	"fmt"
+	"github.com/docker/machine/libmachine/provision"
 	"io/ioutil"
 	"net"
 	"os"
@@ -25,7 +26,6 @@ const (
 	// VERSION represents the semver version of the package
 	VERSION           = "v1.6"
 	defaultImage      = "265b32a3"
-	defaultBootscript = ""
 )
 
 var scwAPI *api.ScalewayAPI
@@ -151,7 +151,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			EnvVar: "SCALEWAY_BOOTSCRIPT",
 			Name:   "scaleway-bootscript",
 			Usage:  "Specifies the bootscript",
-			Value:  defaultBootscript,
+			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "SCALEWAY_IP",
@@ -255,6 +255,7 @@ func (d *Driver) Create() (err error) {
 	if err != nil {
 		return
 	}
+
 	log.Infof("Creating server...")
 	cl, err = d.getClient(d.Region)
 	if err != nil {
@@ -263,23 +264,41 @@ func (d *Driver) Create() (err error) {
 	if err = d.resolveIP(cl); err != nil {
 		return
 	}
-	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
+
+	config := &api.ConfigCreateServer{
 		ImageName:         d.image,
 		CommercialType:    d.CommercialType,
 		Name:              d.name,
 		Bootscript:        d.bootscript,
+		BootType: 		   "bootscript",
 		AdditionalVolumes: d.volumes,
 		IP:                d.IPID,
 		EnableIPV6:        d.ipv6,
 		Env: strings.Join([]string{"AUTHORIZED_KEY",
 			strings.Replace(string(publicKey[:len(publicKey)-1]), " ", "_", -1)}, "="),
-	})
+	}
+	if d.bootscript == "" {
+		config.BootType = "local"
+	}
+	d.ServerID, err = api.CreateServer(cl, config)
 	if err != nil {
 		return
 	}
+
 	log.Infof("Starting server...")
 	err = api.StartServer(cl, d.ServerID, false)
 	d.created = true
+
+	// Ubuntu-bionic do not have sudo installed by default.
+	// TODO: Use cloud-init feature instead
+	provisioner, err := provision.DetectProvisioner(d)
+	if err != nil {
+		return
+	}
+	if provisioner.String() == "ubuntu(systemd)" {
+		drivers.RunSSHCommandFromDriver(d, "echo 'Y\n' | DEBIAN_FRONTEND=noninteractive apt-get install -y sudo")
+	}
+
 	return
 }
 

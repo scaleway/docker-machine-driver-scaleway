@@ -3,6 +3,9 @@
 *.a
 *.so
 
+# Editors
+.idea
+
 # Folders
 # _obj
 # _test
