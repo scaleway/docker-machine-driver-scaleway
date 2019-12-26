@@ -7,9 +7,9 @@ github.com/creack/goselect
 github.com/docker/docker/pkg/namesgenerator
 github.com/docker/docker/pkg/term
 github.com/docker/docker/pkg/term/windows
-# github.com/docker/go-units v0.2.1-0.20151230175859-0bbddae09c5a
+# github.com/docker/go-units v0.4.0
 github.com/docker/go-units
-# github.com/docker/machine v0.16.2 => /Users/qbrosse/go/src/github.com/docker/machine
+# github.com/docker/machine v0.16.2
 github.com/docker/machine/commands/mcndirs
 github.com/docker/machine/libmachine/auth
 github.com/docker/machine/libmachine/cert
@@ -45,7 +45,7 @@ github.com/moul/gotty-client
 github.com/moul/http2curl
 # github.com/renstrom/fuzzysearch v1.1.0 => github.com/lithammer/fuzzysearch v1.1.0
 github.com/renstrom/fuzzysearch/fuzzy
-# github.com/samalba/dockerclient v0.0.0-20151231000007-f661dd4754aa
+# github.com/samalba/dockerclient v0.0.0-20160531175551-a30362618471
 github.com/samalba/dockerclient
 # github.com/scaleway/scaleway-cli v1.10.2-0.20190910170054-f0ff7c3359bb
 github.com/scaleway/scaleway-cli/pkg/api

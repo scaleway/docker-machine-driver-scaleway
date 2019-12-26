@@ -21,10 +21,9 @@ func init() {
 }
 
 func NewUbuntuSystemdProvisioner(d drivers.Driver) Provisioner {
-	r := &UbuntuSystemdProvisioner{
+	return &UbuntuSystemdProvisioner{
 		NewSystemdProvisioner("ubuntu", d),
 	}
-	return r
 }
 
 type UbuntuSystemdProvisioner struct {

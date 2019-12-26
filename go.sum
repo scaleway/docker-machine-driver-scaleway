@@ -22,6 +22,9 @@ github.com/docker/engine v1.4.2-0.20190822205725-ed20165a37b4 h1:+VAGRKyn9Ca+ckz
 github.com/docker/engine v1.4.2-0.20190822205725-ed20165a37b4/go.mod h1:3CPr2caMgTHxxIAZgEMd3uLYPDlRvPqCpyeRf6ncPcY=
 github.com/docker/go-units v0.2.1-0.20151230175859-0bbddae09c5a h1:42qf1j6VWt3GUQzr0Hy8EL3DhNzLBiuWw5wQjNBlFyo=
 github.com/docker/go-units v0.2.1-0.20151230175859-0bbddae09c5a/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
+github.com/docker/go-units v0.4.0 h1:3uh0PgVws3nIA0Q+MwDC8yjEPf9zjRfZZWXZYDct3Tw=
+github.com/docker/go-units v0.4.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
+github.com/docker/machine v0.16.2 h1:jyF9k3Zg+oIGxxSdYKPScyj3HqFZ6FjgA/3sblcASiU=
 github.com/docker/machine v0.16.2/go.mod h1:I8mPNDeK1uH+JTcUU7X0ZW8KiYz0jyAgNaeSJ1rCfDI=
 github.com/dustin/go-humanize v1.0.0 h1:VSnTsYCnlFHaM2/igO1h6X3HA71jcobQuxemgkq4zYo=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
@@ -64,6 +67,8 @@ github.com/rackspace/gophercloud v1.0.1-0.20150408191457-ce0f487f6747/go.mod h1:
 github.com/russross/blackfriday/v2 v2.0.1/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/samalba/dockerclient v0.0.0-20151231000007-f661dd4754aa h1:kIglQ8vg9EkWKEYTBuUl6ESDc65LFrhdoq7a9EvROGI=
 github.com/samalba/dockerclient v0.0.0-20151231000007-f661dd4754aa/go.mod h1:yeYR4SlaRZJct6lwNRKR+qd0CocnxxWDE7Vh5dxsn/w=
+github.com/samalba/dockerclient v0.0.0-20160531175551-a30362618471 h1:y8vpp0FfqRunnOezh5NVGD7SnqRHe0lptTp9/Oc2xL0=
+github.com/samalba/dockerclient v0.0.0-20160531175551-a30362618471/go.mod h1:yeYR4SlaRZJct6lwNRKR+qd0CocnxxWDE7Vh5dxsn/w=
 github.com/scaleway/scaleway-cli v1.10.2-0.20190910170054-f0ff7c3359bb h1:FT5OJV9ZxRgUpwVeLxTUJBKLIsjE2p/qddPo9iTNZ+Q=
 github.com/scaleway/scaleway-cli v1.10.2-0.20190910170054-f0ff7c3359bb/go.mod h1:XjlXWPd6VONhsRSEuzGkV8mzRpH7ou1cdLV7IKJk96s=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=

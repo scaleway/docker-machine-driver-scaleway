@@ -3,7 +3,6 @@ package scaleway
 import (
 	"errors"
 	"fmt"
-	"github.com/docker/machine/libmachine/provision"
 	"io/ioutil"
 	"net"
 	"os"
@@ -285,19 +284,29 @@ func (d *Driver) Create() (err error) {
 		return
 	}
 
-	log.Infof("Starting server...")
-	err = api.StartServer(cl, d.ServerID, false)
-	d.created = true
+	cloudInitConfig := fmt.Sprintf(`#cloud-config
 
-	// Ubuntu-bionic do not have sudo installed by default.
-	// TODO: Use cloud-init feature instead
-	provisioner, err := provision.DetectProvisioner(d)
+# Some images do not have sudo installed by default.
+packages:
+    - sudo
+
+# Add root to sudoers.
+users:
+  - name: root
+    ssh-authorized-keys: [%s]
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+`, publicKey)
+
+	log.Infof("Setting cloud-init config...")
+	err = cl.PatchUserdata(d.ServerID, "cloud-init", []byte(cloudInitConfig), false)
 	if err != nil {
 		return
 	}
-	if provisioner.String() == "ubuntu(systemd)" {
-		drivers.RunSSHCommandFromDriver(d, "echo 'Y\n' | DEBIAN_FRONTEND=noninteractive apt-get install -y sudo")
-	}
+
+	log.Infof("Starting server...")
+	err = api.StartServer(cl, d.ServerID, false)
+	d.created = true
 
 	return
 }

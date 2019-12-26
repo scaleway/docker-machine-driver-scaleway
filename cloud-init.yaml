@@ -1,0 +1,11 @@
+#cloud-config
+
+packages:
+    - sudo
+
+users:
+  - name: root
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbZkfFDuTa2PJ/k/swlsgKUgbUBAbXASM9Mx2s/Bh+fpW10uA7ie5m0sfvdW1pOhIj/pdyGwhjIuoAOo+2pEIcwkVwloG/L7vnbjioP0KRN2ZgWSreX7B7Vj5ukQev0IU8LsCGdo7vXCugxjuwCvIxP2xjK4lpw9G3ekISSLq/fHiAfQ84RINhNnPVcMOjwjK6x821PalqVajML+kGQldDIBurGWAd+2wy01HxwPerqDDnu+Z0/aYKP0YMuwO+r21kcBVzqnNIne4UyBb1kRyvHsIrHzSgw9EfUXi4tCytdL8EtS9ryr1UqhqMSTAjNKeTuvWb3wk8rn6vVbXtN9L7 qbrosse@online.net
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
