@@ -284,6 +284,7 @@ func (d *Driver) Create() (err error) {
 		return
 	}
 
+	log.Infof("Setting cloud-init config...")
 	cloudInitConfig := fmt.Sprintf(`#cloud-config
 
 # Some images do not have sudo installed by default.
@@ -297,8 +298,6 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: sudo
 `, publicKey)
-
-	log.Infof("Setting cloud-init config...")
 	err = cl.PatchUserdata(d.ServerID, "cloud-init", []byte(cloudInitConfig), false)
 	if err != nil {
 		return
