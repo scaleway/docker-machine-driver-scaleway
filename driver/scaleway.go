@@ -24,7 +24,7 @@ import (
 const (
 	// VERSION represents the semver version of the package
 	VERSION           = "v1.6"
-	defaultImage      = "265b32a3"
+	defaultImage      = "ubuntu-bionic"
 )
 
 var scwAPI *api.ScalewayAPI
