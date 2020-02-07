@@ -23,8 +23,8 @@ import (
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION           = "v1.6"
-	defaultImage      = "ubuntu-bionic"
+	VERSION      = "v1.6"
+	defaultImage = "ubuntu_bionic"
 )
 
 var scwAPI *api.ScalewayAPI
@@ -269,7 +269,7 @@ func (d *Driver) Create() (err error) {
 		CommercialType:    d.CommercialType,
 		Name:              d.name,
 		Bootscript:        d.bootscript,
-		BootType: 		   "bootscript",
+		BootType:          "bootscript",
 		AdditionalVolumes: d.volumes,
 		IP:                d.IPID,
 		EnableIPV6:        d.ipv6,
