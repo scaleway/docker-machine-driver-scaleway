@@ -23,8 +23,10 @@ import (
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION      = "v1.6"
-	defaultImage = "ubuntu_bionic"
+	VERSION = "v1.6"
+
+	// ubuntu_bionic will rase a 'too many candidates error'
+	defaultImage = "ubuntu-bionic"
 )
 
 var scwAPI *api.ScalewayAPI
