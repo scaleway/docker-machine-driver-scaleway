@@ -293,15 +293,21 @@ type ProductVolumeConstraint struct {
 	MaxSize uint64 `json:"max_size,omitempty"`
 }
 
+// ProductVolumeConstraint contains any per volume constraint that the offer has
+type ProductPerVolumeConstraint struct {
+	LSsdConstraint ProductVolumeConstraint `json:"l_ssd,omitempty"`
+}
+
 // ProductServerOffer represents a specific offer
 type ProductServer struct {
-	Arch              string                  `json:"arch,omitempty"`
-	Ncpus             uint64                  `json:"ncpus,omitempty"`
-	Ram               uint64                  `json:"ram,omitempty"`
-	Baremetal         bool                    `json:"baremetal,omitempty"`
-	VolumesConstraint ProductVolumeConstraint `json:"volumes_constraint,omitempty"`
-	AltNames          []string                `json:"alt_names,omitempty"`
-	Network           ProductNetwork          `json:"network,omitempty"`
+	Arch                 string                     `json:"arch,omitempty"`
+	Ncpus                uint64                     `json:"ncpus,omitempty"`
+	Ram                  uint64                     `json:"ram,omitempty"`
+	Baremetal            bool                       `json:"baremetal,omitempty"`
+	VolumesConstraint    ProductVolumeConstraint    `json:"volumes_constraint,omitempty"`
+	PerVolumesConstraint ProductPerVolumeConstraint `json:"per_volume_constraint,omitempty"`
+	AltNames             []string                   `json:"alt_names,omitempty"`
+	Network              ProductNetwork             `json:"network,omitempty"`
 }
 
 // Products holds a map of all Scaleway servers
@@ -458,6 +464,9 @@ type ScalewaySecurityGroups struct {
 	Servers               []ScalewaySecurityGroup `json:"servers"`
 	EnableDefaultSecurity bool                    `json:"enable_default_security"`
 	OrganizationDefault   bool                    `json:"organization_default"`
+	Stateful              bool                    `json:"stateful"`
+	InboundDefaultPolicy  string                  `json:"inbound_default_policy"`
+	OutboundDefaultPolicy string                  `json:"outbound_default_policy"`
 }
 
 // ScalewayGetSecurityGroups represents the response of a GET /security_groups/
@@ -503,17 +512,23 @@ type ScalewaySecurityGroup struct {
 
 // ScalewayNewSecurityGroup definition POST request /security_groups
 type ScalewayNewSecurityGroup struct {
-	Organization string `json:"organization"`
-	Name         string `json:"name"`
-	Description  string `json:"description"`
+	Organization          string `json:"organization"`
+	Name                  string `json:"name"`
+	Description           string `json:"description"`
+	Stateful              bool   `json:"stateful"`
+	InboundDefaultPolicy  string `json:"inbound_default_policy"`
+	OutboundDefaultPolicy string `json:"outbound_default_policy"`
 }
 
 // ScalewayUpdateSecurityGroup definition PUT request /security_groups
 type ScalewayUpdateSecurityGroup struct {
-	Organization        string `json:"organization"`
-	Name                string `json:"name"`
-	Description         string `json:"description"`
-	OrganizationDefault bool   `json:"organization_default"`
+	Organization          string `json:"organization"`
+	Name                  string `json:"name"`
+	Description           string `json:"description"`
+	OrganizationDefault   bool   `json:"organization_default"`
+	Stateful              bool   `json:"stateful"`
+	InboundDefaultPolicy  string `json:"inbound_default_policy"`
+	OutboundDefaultPolicy string `json:"outbound_default_policy"`
 }
 
 // ScalewayServer represents a Scaleway server
@@ -545,6 +560,9 @@ type ScalewayServer struct {
 	// State is the current status of the server
 	State string `json:"state,omitempty"`
 
+	// BootType is the boot method used, can be local or bootscript
+	BootType string `json:"boot_type,omitempty"`
+
 	// StateDetail is the detailed status of the server
 	StateDetail string `json:"state_detail,omitempty"`
 
@@ -569,7 +587,7 @@ type ScalewayServer struct {
 	// Organization is the owner of the server
 	Organization string `json:"organization,omitempty"`
 
-	// CommercialType is the commercial type of the server (i.e: C1, C2[SML], VC1S)
+	// CommercialType is the commercial type of the server (i.e: DEV1-[S|M|L|XL], GP1-[XS|S|M|L|XL], RENDER-S)
 	CommercialType string `json:"commercial_type,omitempty"`
 
 	// Location of the server
@@ -619,6 +637,33 @@ type ScalewayServerPatchDefinition struct {
 	Tags              *[]string                  `json:"tags,omitempty"`
 	IPV6              *ScalewayIPV6Definition    `json:"ipv6,omitempty"`
 	EnableIPV6        *bool                      `json:"enable_ipv6,omitempty"`
+	BootType          *string                    `json:"boot_type,omitempty"`
+}
+
+type ScalewayServerVolumeDefinition interface {
+	isScalewayServerVolumeDefinition()
+}
+
+type ScalewayServerVolumeDefinitionNew struct {
+	Name           string `json:"name"`
+	OrganizationId string `json:"organization"`
+	Size           uint64 `json:"size"`
+	VolumeType     string `json:"volume_type"`
+}
+
+func (*ScalewayServerVolumeDefinitionNew) isScalewayServerVolumeDefinition() {
+}
+
+type ScalewayServerVolumeDefinitionResize struct {
+	Size uint64 `json:"size"`
+}
+
+func (*ScalewayServerVolumeDefinitionResize) isScalewayServerVolumeDefinition() {
+}
+
+type ScalewayServerVolumeDefinitionFromId string
+
+func (ScalewayServerVolumeDefinitionFromId) isScalewayServerVolumeDefinition() {
 }
 
 // ScalewayServerDefinition represents a Scaleway server with image definition
@@ -630,7 +675,7 @@ type ScalewayServerDefinition struct {
 	Image *string `json:"image,omitempty"`
 
 	// Volumes are the attached volumes
-	Volumes map[string]string `json:"volumes,omitempty"`
+	Volumes map[string]ScalewayServerVolumeDefinition `json:"volumes,omitempty"`
 
 	// DynamicIPRequired is a flag that defines a server with a dynamic ip address attached
 	DynamicIPRequired *bool `json:"dynamic_ip_required,omitempty"`
@@ -644,7 +689,7 @@ type ScalewayServerDefinition struct {
 	// Organization is the owner of the server
 	Organization string `json:"organization"`
 
-	// CommercialType is the commercial type of the server (i.e: C1, C2[SML], VC1S)
+	// CommercialType is the commercial type of the server (i.e: DEV1-[S|M|L|XL], GP1-[XS|S|M|L|XL], RENDER-S)
 	CommercialType string `json:"commercial_type"`
 
 	PublicIP string `json:"public_ip,omitempty"`
@@ -652,6 +697,8 @@ type ScalewayServerDefinition struct {
 	EnableIPV6 bool `json:"enable_ipv6,omitempty"`
 
 	SecurityGroup string `json:"security_group,omitempty"`
+
+	BootType string `json:"boot_type,omitempty"`
 }
 
 // ScalewayOneServer represents the response of a GET /servers/UUID API call
@@ -1208,7 +1255,7 @@ func (s *ScalewayAPI) GetServers(all bool, limit int) (*[]ScalewayServer, error)
 		}
 	)
 
-	serverChan := make(chan ScalewayServers, 2)
+	serverChan := make(chan ScalewayServers, len(apis))
 	for _, api := range apis {
 		g.Go(s.fetchServers(api, query, serverChan))
 	}
@@ -1382,7 +1429,7 @@ func (s *ScalewayAPI) PostSnapshot(volumeID string, name string) (string, error)
 		return "", err
 	}
 	// FIXME arch, owner, title
-	s.Cache.InsertSnapshot(snapshot.Snapshot.Identifier, "", "", snapshot.Snapshot.Organization, snapshot.Snapshot.Name)
+	s.Cache.InsertSnapshot(snapshot.Snapshot.Identifier, s.Region, "", snapshot.Snapshot.Organization, snapshot.Snapshot.Name)
 	return snapshot.Snapshot.Identifier, nil
 }
 
@@ -1414,7 +1461,7 @@ func (s *ScalewayAPI) PostImage(volumeID string, name string, bootscript string,
 		return "", err
 	}
 	// FIXME region, arch, owner, title
-	s.Cache.InsertImage(image.Image.Identifier, "", image.Image.Arch, image.Image.Organization, image.Image.Name, "")
+	s.Cache.InsertImage(image.Image.Identifier, s.Region, image.Image.Arch, image.Image.Organization, image.Image.Name, "")
 	return image.Image.Identifier, nil
 }
 
@@ -1690,7 +1737,7 @@ func (s *ScalewayAPI) GetSnapshots() (*[]ScalewaySnapshot, error) {
 	}
 	for _, snapshot := range snapshots.Snapshots {
 		// FIXME region, arch, owner, title
-		s.Cache.InsertSnapshot(snapshot.Identifier, "", "", snapshot.Organization, snapshot.Name)
+		s.Cache.InsertSnapshot(snapshot.Identifier, s.Region, "", snapshot.Organization, snapshot.Name)
 	}
 	return &snapshots.Snapshots, nil
 }
@@ -1713,7 +1760,7 @@ func (s *ScalewayAPI) GetSnapshot(snapshotID string) (*ScalewaySnapshot, error) 
 		return nil, err
 	}
 	// FIXME region, arch, owner, title
-	s.Cache.InsertSnapshot(oneSnapshot.Snapshot.Identifier, "", "", oneSnapshot.Snapshot.Organization, oneSnapshot.Snapshot.Name)
+	s.Cache.InsertSnapshot(oneSnapshot.Snapshot.Identifier, s.Region, "", oneSnapshot.Snapshot.Organization, oneSnapshot.Snapshot.Name)
 	return &oneSnapshot.Snapshot, nil
 }
 
@@ -1740,7 +1787,7 @@ func (s *ScalewayAPI) GetVolumes() (*[]ScalewayVolume, error) {
 	}
 	for _, volume := range volumes.Volumes {
 		// FIXME region, arch, owner, title
-		s.Cache.InsertVolume(volume.Identifier, "", "", volume.Organization, volume.Name)
+		s.Cache.InsertVolume(volume.Identifier, s.Region, "", volume.Organization, volume.Name)
 	}
 	return &volumes.Volumes, nil
 }
@@ -1763,7 +1810,7 @@ func (s *ScalewayAPI) GetVolume(volumeID string) (*ScalewayVolume, error) {
 		return nil, err
 	}
 	// FIXME region, arch, owner, title
-	s.Cache.InsertVolume(oneVolume.Volume.Identifier, "", "", oneVolume.Volume.Organization, oneVolume.Volume.Name)
+	s.Cache.InsertVolume(oneVolume.Volume.Identifier, s.Region, "", oneVolume.Volume.Organization, oneVolume.Volume.Name)
 	return &oneVolume.Volume, nil
 }
 
@@ -1789,7 +1836,7 @@ func (s *ScalewayAPI) GetBootscripts() (*[]ScalewayBootscript, error) {
 	}
 	for _, bootscript := range bootscripts.Bootscripts {
 		// FIXME region, arch, owner, title
-		s.Cache.InsertBootscript(bootscript.Identifier, "", bootscript.Arch, bootscript.Organization, bootscript.Title)
+		s.Cache.InsertBootscript(bootscript.Identifier, s.Region, bootscript.Arch, bootscript.Organization, bootscript.Title)
 	}
 	return &bootscripts.Bootscripts, nil
 }
@@ -1812,7 +1859,7 @@ func (s *ScalewayAPI) GetBootscript(bootscriptID string) (*ScalewayBootscript, e
 		return nil, err
 	}
 	// FIXME region, arch, owner, title
-	s.Cache.InsertBootscript(oneBootscript.Bootscript.Identifier, "", oneBootscript.Bootscript.Arch, oneBootscript.Bootscript.Organization, oneBootscript.Bootscript.Title)
+	s.Cache.InsertBootscript(oneBootscript.Bootscript.Identifier, s.Region, oneBootscript.Bootscript.Arch, oneBootscript.Bootscript.Organization, oneBootscript.Bootscript.Title)
 	return &oneBootscript.Bootscript, nil
 }
 
@@ -1973,20 +2020,9 @@ func (s *ScalewayAPI) CheckCredentials() error {
 	if err != nil {
 		return err
 	}
-	found := false
 	var tokens ScalewayGetTokens
-
 	if err = json.Unmarshal(body, &tokens); err != nil {
 		return err
-	}
-	for _, token := range tokens.Tokens {
-		if token.ID == s.Token {
-			found = true
-			break
-		}
-	}
-	if !found {
-		return fmt.Errorf("Invalid token %v", s.Token)
 	}
 	return nil
 }
@@ -2212,6 +2248,20 @@ func (s *ScalewayAPI) GetImageID(needle, arch string) (*ScalewayImageIdentifier,
 	if len(images) == 0 {
 		return nil, fmt.Errorf("No such image (zone %s, arch %s) : %s", s.Region, arch, needle)
 	}
+
+	// If one image is an exact match we pick it
+	for _, image := range images {
+		if image.CodeName() == "image:"+needle {
+			return &ScalewayImageIdentifier{
+				Identifier: image.Identifier,
+				Arch:       image.Arch,
+				// FIXME region, owner hardcoded
+				Region: image.Region,
+				Owner:  "",
+			}, nil
+		}
+	}
+
 	return nil, showResolverResults(needle, images)
 }
 

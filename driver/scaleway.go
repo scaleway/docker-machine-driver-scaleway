@@ -9,23 +9,24 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/docker/machine/libmachine/drivers"
 	"github.com/docker/machine/libmachine/log"
 	"github.com/docker/machine/libmachine/mcnflag"
 	"github.com/docker/machine/libmachine/ssh"
 	"github.com/docker/machine/libmachine/state"
-	"github.com/moul/anonuuid"
 	"github.com/scaleway/scaleway-cli/pkg/api"
 	"github.com/scaleway/scaleway-cli/pkg/clilogger"
 	"github.com/scaleway/scaleway-cli/pkg/config"
+	"github.com/sirupsen/logrus"
+	"moul.io/anonuuid"
 )
 
 const (
 	// VERSION represents the semver version of the package
-	VERSION           = "v1.6"
-	defaultImage      = "265b32a3"
-	defaultBootscript = ""
+	VERSION = "v1.6"
+
+	// ubuntu_bionic will rase a 'too many candidates error'
+	defaultImage = "ubuntu-bionic"
 )
 
 var scwAPI *api.ScalewayAPI
@@ -79,7 +80,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) (err error) {
 
 	d.Token, d.Organization = flags.String("scaleway-token"), flags.String("scaleway-organization")
 	if d.Token == "" || d.Organization == "" {
-		config, cfgErr := config.GetConfig()
+		config, cfgErr := config.GetConfig("")
 		if cfgErr == nil {
 			if d.Token == "" {
 				d.Token = config.Token
@@ -151,7 +152,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			EnvVar: "SCALEWAY_BOOTSCRIPT",
 			Name:   "scaleway-bootscript",
 			Usage:  "Specifies the bootscript",
-			Value:  defaultBootscript,
+			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "SCALEWAY_IP",
@@ -255,6 +256,7 @@ func (d *Driver) Create() (err error) {
 	if err != nil {
 		return
 	}
+
 	log.Infof("Creating server...")
 	cl, err = d.getClient(d.Region)
 	if err != nil {
@@ -263,23 +265,50 @@ func (d *Driver) Create() (err error) {
 	if err = d.resolveIP(cl); err != nil {
 		return
 	}
-	d.ServerID, err = api.CreateServer(cl, &api.ConfigCreateServer{
+
+	config := &api.ConfigCreateServer{
 		ImageName:         d.image,
 		CommercialType:    d.CommercialType,
 		Name:              d.name,
 		Bootscript:        d.bootscript,
+		BootType:          "bootscript",
 		AdditionalVolumes: d.volumes,
 		IP:                d.IPID,
 		EnableIPV6:        d.ipv6,
 		Env: strings.Join([]string{"AUTHORIZED_KEY",
 			strings.Replace(string(publicKey[:len(publicKey)-1]), " ", "_", -1)}, "="),
-	})
+	}
+	if d.bootscript == "" {
+		config.BootType = "local"
+	}
+	d.ServerID, err = api.CreateServer(cl, config)
 	if err != nil {
 		return
 	}
+
+	log.Infof("Setting cloud-init config...")
+	cloudInitConfig := fmt.Sprintf(`#cloud-config
+
+# Some images do not have sudo installed by default.
+packages:
+    - sudo
+
+# Add root to sudoers.
+users:
+  - name: root
+    ssh-authorized-keys: [%s]
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+`, publicKey)
+	err = cl.PatchUserdata(d.ServerID, "cloud-init", []byte(cloudInitConfig), false)
+	if err != nil {
+		return
+	}
+
 	log.Infof("Starting server...")
 	err = api.StartServer(cl, d.ServerID, false)
 	d.created = true
+
 	return
 }
 
