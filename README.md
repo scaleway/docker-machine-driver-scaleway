@@ -309,8 +309,8 @@ View full [commits list](https://github.com/scaleway/docker-machine-driver-scale
 
 ### v1.2.0 (2016-05-08)
 
-* Add `--scaleway-volumes` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))
-* Add `--scaleway-ip` ([#40](https://github.com/scaleway/docker-machine-driver-scaleway/issues/40))
+* Add `--scaleway-ip` ([#37](https://github.com/scaleway/docker-machine-driver-scaleway/issues/37))
+* Add `--scaleway-volumes` ([#40](https://github.com/scaleway/docker-machine-driver-scaleway/issues/40))
 
 View full [commits list](https://github.com/scaleway/docker-machine-driver-scaleway/compare/v1.1.0...v1.2.0)
 
