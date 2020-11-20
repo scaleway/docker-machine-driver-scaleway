@@ -3,15 +3,17 @@ language: go
 sudo: false
 
 go:
-  - 1.11
-  - 1.12
   - 1.13
+  - 1.14
+  - 1.15
 
 before_install:
     - curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-machine-`uname -s`-`uname -m` > $GOPATH/bin/docker-machine && chmod +x $GOPATH/bin/docker-machine
 
 install:
-    - go install
+    - GO111MODULE=on go get -v ./...
+    - go build -o docker-machine-driver-scaleway-v2
+    - cp docker-machine-driver-scaleway-v2 $GOPATH/bin/
 
 script:
-    docker-machine create -d scaleway -h | grep "scaleway"
+    docker-machine create -d scaleway-v2 -h | grep "scaleway"
