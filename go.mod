@@ -25,7 +25,7 @@ require (
 	github.com/scaleway/scaleway-cli v1.10.2-0.20190910170054-f0ff7c3359bb
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/goconvey v1.6.4 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
 	gotest.tools v2.2.0+incompatible // indirect
 	moul.io/anonuuid v1.2.1
 )
